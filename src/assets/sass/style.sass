@@ -1,19 +1,19 @@
 @font-face 
-  font-family: kanji
-  src: url(../assets/font/kanji.ttf)
+  font-family: chess
+  src: url(../assets/font/chess.ttf)
 
 // @font-face 
 //   font-family: emoji
 //   src: url(../assets/font/emoji.ttf)
 *
-  font-family: 'Times New Roman', Times, serif, kanji
+  font-family: 'Times New Roman', Times, serif, chess
   
 html, body
   margin: 0
   padding: 0
 
 body 
-  font-family: 'Times New Roman', Times, serif, kanji
+  font-family: 'Times New Roman', Times, serif, chess
   user-select: none
   background-color: #ffedb8
 
@@ -119,15 +119,16 @@ arena
       z-index: 0
       
       label
-        font-family: kanji
+        font-family: chess
         display: flex
         justify-content: center
         align-items: center
         aspect-ratio: 1
-        font-size: 40pt
+        font-size: 55pt
         font-weight: bold
         color: transparent
         border-radius: 10%
+
         
 
     #board
@@ -141,15 +142,16 @@ arena
       height: 800px
       z-index: 2
       label
-        font-family: kanji
+        font-family: chess
         display: flex
         justify-content: center
         align-items: center
         aspect-ratio: 1
-        font-size: 40pt
+        font-size: 55pt
         font-weight: bold
         color: transparent
         border-radius: 10%
+        
         &:hover
           box-shadow: 0px 0px 10px 5px green
     
@@ -202,7 +204,7 @@ arena
         aspect-ratio: 1
         width: 200px
         height: 200px
-        font-family: kanji
+        font-family: chess
 
       #r-2
         grid-row: 3
@@ -282,7 +284,7 @@ info
         outline: 10px #171716 solid
         box-shadow: 0px 0px 15px 12px #ad00ad
         background-color: #ffffff
-        font-family: kanji
+        font-family: chess
 
 
       #PW
@@ -293,180 +295,10 @@ info
         outline: 10px #d1d1d1 solid
         box-shadow: 0px 0px 15px 12px #ad00ad00
         background-color: #ffffff
-        font-family: kanji
-
-  #tower_details
-    grid-row: 2
-    grid-column: 1
-    width: 395px
-    height: 100px
-
-    .tower
-      display: grid
-      grid-template-rows: auto
-      grid-template-columns: auto auto
-      font-size: 100px
-
-      #tower
-        grid-column: 1
-        grid-row: 1
-        font-size: 45pt
-        font-weight: bold
-        font-family: kanji
-        display: flex
-        justify-content: center
-        align-items: center
-      [name=fake]
-        grid-column: 2
-        grid-row: 1
-        display: flex
-        justify-content: center
-        align-items: center
-
-        z-index: -1
-        label
-          margin: 10px
-          display: flex
-          justify-content: center
-          align-items: center
-          width: 75px
-          height: 75px
-          font-size: 40pt
-          font-weight: bold
-          color: transparent
-          box-shadow: 0px 0px 10px 2px #999999
-          background-color: #ffffff
-
-      [name=board]
-        grid-column: 2
-        grid-row: 1
-        display: flex
-        justify-content: center
-        label
-          margin: 10px
-          display: flex
-          justify-content: center
-          align-items: center
-          width: 75px
-          height: 75px
-          font-size: 40pt
-          font-weight: bold
-          color: transparent
-          background-color: #ffffff
-          &:hover
-            box-shadow: 0px 0px 10px 2px #009699
-      
-
-  #black_stockpile
-    grid-row: 3
-    grid-column: 1
-    width: 400px
-    height: 220px
-
-  #white_stockpile   
-    grid-row: 4
-    grid-column: 1
-    width: 400px
-    height: 220px
-
-  #black_stockpile, #white_stockpile
-    line-height: 35px
-    display: flex
-    flex-wrap: wrap
-    width: 400px
-    height: 220px
-    font-family: kanji
-
-    h3
-      margin-top: 5px
-      margin-bottom: 20px
-
-    [name=pile]
-      display: flex
-      flex-wrap: wrap
-      justify-content: center
-      
-      label
-        font-size: 20pt
-        padding: 5px
-        margin: 3px
-        text-align: center
-        width: 35px
-        height: 35px
-        background-color: white
-        &:hover
-          color: red
-          border: 2px solid #fc9803
-          box-shadow: 0px 0px 10px 2px #fc9803
-          font-weight: bold
-          sub
-            font-size: 10pt
-            color: black
-            font-weight: bold
-
-        sub
-          font-size: 10pt
-          color: red
-          font-weight: bold
-   
-    .army
-      width: 100%
-      text-align: right
-      color: rgb(75, 0, 126)
-      margin-top: 1px
-      padding-right: 5px
-      height: 50px
-
-      .tooltip
-        float: left
-        margin-top: 5px
-        padding: 10px
-        padding-top: 1px
-        padding-bottom: 1px
-        color: black
-        font-size: 15pt
-        font-weight: bold
-        border-radius: 5px
-        box-shadow: 0px 0px 10px 3px #009699
-        background-color: white
-        z-index:10
-        display: none
-
-  #war
-    grid-row: 5
-    grid-column: 1
-    width: 400px
-    height: 75px
-    display: none
-    justify-content: center
-    
-    *
-      margin: 10px
-      display: flex     
-      justify-content: center
-      align-items: center
-      border-radius: 10px
-      font-size: 20pt
-      width: 170px
-      height: 50px
+        font-family: chess
 
 
-    #Attack
-      
-      background-color: #dc3545
-      color: white
-      border: 2px solid #dc3545
-      &:hover
-        background-color: #c5303f
-        cursor: pointer
 
-    #Stack
-      background-color: #ffc107
-      color: black
-      border: 2px solid #ffc107
-      &:hover
-        background-color: #ebb001
-        cursor: pointer
 
 
 Capture
@@ -480,7 +312,7 @@ Capture
   text-align: center
   margin: 10px auto auto auto
   width: 130px
-  font-family: kanji
+  font-family: chess
 
 
   .r1 h2
@@ -798,7 +630,7 @@ nav
           border-radius: 100%
           outline: 3px #171716 solid
           background-color: #ffffff
-          font-family: kanji
+          font-family: chess
           margin-right: 5px
           
           
@@ -809,7 +641,7 @@ nav
           border-radius: 100%
           outline: 3px #d1d1d1 solid
           background-color: #ffffff
-          font-family: kanji
+          font-family: chess
 
 
         label
@@ -818,6 +650,6 @@ nav
           color: #0003b9 
           border-radius: 100%
           background-color: #ffffff
-          font-family: kanji
+          font-family: chess
           margin-right: 5px
 

@@ -136,21 +136,22 @@ export function Movement_Possibility(src, dst) {
   return Possibility.filter(move => move.dst == dst)
 }
 
-export function Put_Pieces  (e, type, color, tier) {
-
-  if (color == 'b') {
+export function Put_Pieces(e, type, color) {
+  if(color=='b'){
     $(e).css({
       "color": 'black',
-      'text-shadow': '1px 0 0 #ffcf9e00',
+      '-webkit-text-stroke': '2px white',
+      'text-stroke': '2px white'
     });
-
-  } else {
+  }else {
     $(e).css({
-      'text-shadow': '1px 0 0 black, -1px 0 0 black, 0 -1px 0 black, 0 1px 0 black, 1px -1px 0 black, -1px 1px 0 black, -1px -1px 0 black, 1px 1px 0 black',
-      'color': 'white',
+      "color": 'white',
+      '-webkit-text-stroke': '2px black',
+      'text-stroke': '2px black'
     });
-
   }
+
+
 
   $(e).text(type);
 }
@@ -187,10 +188,8 @@ export function Reset_Sections(e = ["#board label", ".captured"]) {
 function Remove_Pieces(e, type = '0', color = "#ffcf9e00") {
   $(e).css({
     "color": color,
-    'text-shadow': '1px 0 0 #ffcf9e00',
-    "border-radius": "5px",
-    "outline": "0px #999999 solid",
-    "outline-offset": "0px"
+    '-webkit-text-stroke': '0px transparent',
+    'text-stroke': '0px transparent'
   });
   $(e).text(type);
 }
@@ -341,7 +340,7 @@ export function update_tier(pos) {
   let item = chess.get(pos)
   $.each(item, function (index, item) {
     if (item) {
-      Put_Pieces("#t-" + index, item.symbol, item.color, index + 1)
+      Put_Pieces("#t-" + index, item.symbol, item.color)
     } else {
       Remove_Pieces("#t-" + index)
     }
