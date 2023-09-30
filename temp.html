@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Style for the chat box */
+        .chat-box {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column; /* Display messages above input */
+            width: 300px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Style for the chat messages area */
+        .chat-messages {
+            flex: 1; /* Allow it to expand and take available space */
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        /* Style for the input field and send button */
+        .chat-input-container {
+            display: flex;
+        }
+
+        .chat-input {
+            flex: 1; /* Allow it to expand and take available space */
+            border: 1px solid #ccc;
+            padding: 5px;
+            margin-right: 10px;
+        }
+
+        .chat-send {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-box">
+        <div class="chat-messages" contenteditable="false" id="message-box">
+            <!-- Chat messages go here -->
+        </div>
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="message-input" placeholder="Type your message">
+            <button class="chat-send" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const messageInput = document.getElementById('message-input');
+            const messageBox = document.getElementById('message-box');
+            const messageText = messageInput.value.trim();
+
+            if (messageText !== '') {
+                // Create a new message element
+                const messageElement = document.createElement('div');
+                messageElement.textContent = messageText;
+
+                // Append the message to the message box
+                messageBox.appendChild(messageElement);
+
+                // Clear the input field
+                messageInput.value = '';
+
+                // Scroll to the bottom of the message box
+                messageBox.scrollTop = messageBox.scrollHeight;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+from utils import *
+
+app = Flask(__name__)
+CORS(app, origins="http://127.0.0.1:4000")
+
+
+@app.route('/heartbeat', methods=['POST'])
+def heartbeat():
+  check_activity()
+
+  data = request.get_json()
+  active_peers[data['id']] = {'time':time.time(), 'username':data['username'], 'opponent': data['opponent']}  # Update last active timestamp
+  return jsonify({"message": "Heartbeat received", "active_peers": active_peers})
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
