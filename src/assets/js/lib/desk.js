@@ -23,7 +23,7 @@ export default class Desk {
     this.ROOK = ['♖', '♜']
     this.QUEEN = ['♕', '♛']
     this.PAWN = ['♙', '♟']
-    this.king = ['♔', '♚']
+    this.KING = ['♔', '♚']
     this.ROW = 8
     this.COLUMN = 8
     // --------------------------------------------

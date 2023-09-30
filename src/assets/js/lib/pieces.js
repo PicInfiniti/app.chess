@@ -2,7 +2,7 @@ export class King {
   constructor(color, src = null, tier = 1) {
     this.color = color
     this.name = 'king'
-    this.symbol = '♚'
+    this.symbol = color == 'w' ? '♚' : '♔'
     this.tier = tier
     this.src = src
   }
@@ -26,7 +26,7 @@ export class Pawn {
   constructor(color, src = null, tier = 1) {
     this.color = color
     this.name = 'pawn'
-    this.symbol = '♟'
+    this.symbol = color == 'w' ? '♟' : '♙'
     this.tier = tier
     this.src = src
   }
@@ -51,7 +51,7 @@ export class Queen {
   constructor(color, src = null, tier = 1) {
     this.color = color
     this.name = 'queen'
-    this.symbol = '♛'
+    this.symbol = color == 'w' ? '♛' : '♕'
     this.tier = tier
     this.src = src
   }
@@ -76,7 +76,7 @@ export class Rook {
   constructor(color, src = null, tier = 1) {
     this.color = color
     this.name = 'rook'
-    this.symbol = '♜'
+    this.symbol = color == 'w' ? '♜' : '♖'
     this.tier = tier
     this.src = src
   }
@@ -105,7 +105,7 @@ export class Bishop {
   constructor(color, src = null, tier = 1) {
     this.color = color
     this.name = 'bishop'
-    this.symbol = '♝'
+    this.symbol = color == 'w' ? '♝' : '♗'
     this.tier = tier
     this.src = src
   }
@@ -131,7 +131,7 @@ export class Knight {
   constructor(color, src = null, tier = 1) {
     this.color = color
     this.name = 'knight'
-    this.symbol = '♞'
+    this.symbol = color == 'w' ? '♞' : '♘'
     this.tier = tier
     this.src = src
   }
