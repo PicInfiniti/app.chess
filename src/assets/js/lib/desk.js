@@ -122,7 +122,7 @@ export default class Desk {
     return ((check['w'] || check['b']) && this.in_stalemate(board))
   }
 
-  in_stalemate(board = this.board) {
+  in_stalemate() {
     let possible_moves = []
     let temp;
 
@@ -134,11 +134,6 @@ export default class Desk {
       possible_moves = possible_moves.concat(this.moves(piece))
     })
 
-    for (let Piece in this.stockpiles[this.turn]) {
-      this.stockpiles[this.turn][Piece].forEach((piece, _) => {
-        possible_moves = possible_moves.concat(this.moves(piece))
-      })
-    }
     return possible_moves.length == 0
   }
   // game rules
