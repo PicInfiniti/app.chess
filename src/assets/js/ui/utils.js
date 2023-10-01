@@ -29,8 +29,8 @@ export function addMessage(text, username, style = {
 export function Check(color) {
   let piece = chess.kings[color]
   $('#b-' + piece.src).css({
-    "border": "min(.2vh,.2vw) solid red",
-    "box-shadow": "0px 0px min(1vh,1vw) min(.3vh,.3vw) red",
+    "border": "2px solid red",
+    "box-shadow": "0px 0px 10px min(.3vh,.3vw) red",
     "color": "red"
   }); // change color of current box
 }
@@ -133,7 +133,8 @@ export function Reset_Sections(e = ["#board label", ".captured"]) {
   $.each(e, function (index, item) {
     $(item).css({
       border: "",
-      "box-shadow": ""
+      "box-shadow": "",
+      'background-color': ""
     }); // change color of all boxes
   });
   $("war").fadeOut();
@@ -195,8 +196,9 @@ export function turn_update() {
 
 export function Select_Square(e, color) {
   $(e).css({
-    border: ".2vh solid " + color,
-    "box-shadow": "0px 0px min(1vh,1vw) min(.2vh,.2vw) " + color,
+    "border": `.2vh solid ${color}`,
+    "box-shadow": `0px 0px 10px 2px ${color}`,
+    'background-color': `${color}`
   }); // change color of current box
 }
 
@@ -207,13 +209,15 @@ export function Show_Moves(chess, tag, click_pos) {
     $.each(Moves, function (_, item) {
       if (item.type == 'move') {
         $('#b-' + item.dst).css({
-          "border": "min(.2vh,.2vw)solid #009699",
-          "box-shadow": "0px 0px min(1vh,1vw) min(.2vh,.2vw) #009699",
+          "border": "2px solid #009699",
+          "box-shadow": "0px 0px 10px 2px #009699",
+          'background-color': "#009699"
         });
       } else {
         $('#b-' + item.dst).css({
-          "border": "min(.2vh,.2vw) solid red",
-          "box-shadow": "0px 0px min(1vh,1vw) min(.2vh,.2vw) red"
+          "border": "2px solid red",
+          "box-shadow": "0px 0px 10px 2px red",
+          'background-color': "red"
         });
       }
 
@@ -249,32 +253,10 @@ export function Update_Game(Move = {
     turn_update();
     if (res) {
       switch (Move.type) {
-        case chess.PLACE:
-          update_board();
-
-          if (Move.piece.color == chess.BLACK) {
-            let temp = chess.stockpiles.b[Move.piece.name].length
-
-            $(`#bs-${Move.piece.symbol} sub`).text(temp != 0 ? temp : '')
-            // Select_Square(`#ws-${Move.piece.symbol}`, '#fc9803')
-
-          } else {
-            let temp = chess.stockpiles.w[Move.piece.name].length
-            $(`#ws-${Move.piece.symbol} sub`).text(temp != 0 ? temp : '')
-            // Select_Square(`#bs-${Move.piece.symbol}`, '#fc9803')
-          }
-
-          break;
-
         case chess.MOVEMENT:
           update_board();
-
           break;
 
-        case chess.STACK:
-          update_board();
-
-          break;
 
         case chess.ATTACK:
           update_board();
