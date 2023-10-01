@@ -7,7 +7,8 @@ import {
   Update_Game,
   Reset_Game,
   load_history,
-  CheckMate
+  CheckMate,
+  Select_Square
 } from './ui/utils'
 import {
   chess
@@ -69,45 +70,17 @@ socket.peer.on('connection', function (conn) {
       socket.data = data
       addRequest(data.username)
     } else if (data.message == 'move') {
-      let res, piece;
-      switch (data.move.type) {
-        case 'place':
-          piece = data.move.piece
-          piece = chess.stockpiles[piece.color][piece.name][0]
-          res = Update_Game({
-            piece: piece,
-            dst: data.move.dst,
-            type: 'place'
-          }, true);
-          break
+      let piece = chess.get(data.move.piece.src)
+      let res = Update_Game({
+        piece: piece,
+        dst: data.move.dst,
+        type: data.move.type
+      }, true);
 
-        case 'ready':
-          res = Update_Game({
-            piece: null,
-            dst: null,
-            type: 'ready'
-          }, true);
-
-          if (chess.phase == 'game') {
-            $("#ReadyButton").click()
-            $("#ReadyButton").css({
-              'color': 'red',
-              'background-color': 'white'
-            })
-          }
-
-          break
-
-        default:
-          piece = chess.get(data.move.piece.src)
-          res = Update_Game({
-            piece: piece,
-            dst: data.move.dst,
-            type: data.move.type
-          }, true);
-          break;
-
+      if(res){
+        Select_Square(`#b-${data.move.dst}`, 'green')
       }
+
     } else if (data.message == 'message') {
       addMessage(data.text, data.username)
 

@@ -9,7 +9,6 @@ import {
   Show_Moves,
   Movement_Possibility,
   Update_Game,
-  update_tier,
   Check,
   CheckMate,
   saveText,
@@ -146,7 +145,7 @@ $('#board label').mousedown(function (event) {
               dst: socket.click_pos.dst,
               type: Movement[0].type
             })
-            update_tier(socket.click_pos.dst);
+
             socket.click_pos.src = null;
             socket.click_pos.dst = null
           } else if (Movement.length == 2) {

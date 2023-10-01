@@ -137,7 +137,7 @@ export function Reset_Sections(e = ["#board label", ".captured"]) {
       'background-color': ""
     }); // change color of all boxes
   });
-  $("war").fadeOut();
+
 
   if ($('#result').css('opacity') == 1) {
     $('#r-0').css({
@@ -155,7 +155,7 @@ export function Reset_Sections(e = ["#board label", ".captured"]) {
       'opacity': 1
     })
   }
-  // WAR = null;
+
 }
 
 function Remove_Pieces(e, type = '0', color = "#ffcf9e00") {
@@ -195,6 +195,7 @@ export function turn_update() {
 }
 
 export function Select_Square(e, color) {
+  Reset_Sections()
   $(e).css({
     "border": `.2vh solid ${color}`,
     "box-shadow": `0px 0px 10px 2px ${color}`,
@@ -290,16 +291,6 @@ export function Update_Game(Move = {
   }
 }
 
-export function update_tier(pos) {
-  let item = chess.get(pos)
-  $.each(item, function (index, item) {
-    if (item) {
-      Put_Pieces("#t-" + index, item.symbol, item.color)
-    } else {
-      Remove_Pieces("#t-" + index)
-    }
-  });
-}
 
 
 export function Reset_Game() {
