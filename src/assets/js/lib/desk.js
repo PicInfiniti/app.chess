@@ -30,7 +30,7 @@ export default class Desk {
 
     // initial setup +++++++++++++++++++++++++++++++++
     this.board = this.board_generator(this.ROW, this.COLUMN)
-    this.board_1D = [] // one dimension board
+    this.board_1D = this.D3_to_1d(this.board) // one dimension board
     this.board_temp;
     this.turn = this.WHITE
     this.kings = {
@@ -97,6 +97,19 @@ export default class Desk {
     return board
   }
 
+  D3_to_1d(board = this.board) {
+    let board_1D = []
+    board.forEach(function (row, r) {
+      row.forEach(function (piece, c) {
+        if (piece) {
+          board_1D.push(piece)
+        }
+      })
+    })
+
+    return board_1D
+  }
+
 
   get(pos) {
     if (pos) {
@@ -119,7 +132,7 @@ export default class Desk {
 
   in_checkmate(board = this.board) {
     let check = this.in_check(board)
-    return ((check['w'] || check['b']) && this.in_stalemate(board))
+    return ((check.w || check.b) && this.in_stalemate())
   }
 
   in_stalemate() {
@@ -139,7 +152,7 @@ export default class Desk {
   // game rules
   // game rules
   legal_moves = (move) => {
-    let temp_src, temp_tier, temp_top;
+    let temp_src, temp_top;
     let legal = [move.piece.color == this.turn]; // check turn
     let opposite = this.kings[move.piece.color == 'b' ? 'w' : 'b']
     let x = Number(move.dst.split('-')[0])
@@ -167,18 +180,14 @@ export default class Desk {
       case 'attack':
         temp_top = this.get(move.dst)
         temp_src = move.piece.src;
-        temp_tier = move.piece.tier
         // ------------------------------------------------------------
         move.piece.src = move.dst
-        move.piece.tier = temp_top.tier
-        this.board_1D.splice(this.board_1D.indexOf(temp_top), 1)
+        this.board_1D = this.D3_to_1d()
         // ------------------------------------------------------------
         this.board_temp = this.D1_to_3d()
         legal.push(!this.in_check(this.board_temp)[move.piece.color])
         // ------------------------------------------------------------
         move.piece.src = temp_src
-        move.piece.tier = temp_tier
-        this.board_1D.push(temp_top)
 
         break;
     }
@@ -199,6 +208,7 @@ export default class Desk {
 
   moves(piece) {
     if (piece) {
+      console.log(piece.Possible_moves(this.board))
       return piece.Possible_moves(this.board).filter((move) => {
         return this.legal_moves(move)
       })
@@ -238,7 +248,6 @@ export default class Desk {
           })
 
           // ---------------------------
-          Move.piece.tier = 1; // set tier for placed piece
           Move.piece.src = Move.dst; // update piece position
           this.update_turn() // update game turn
 
@@ -284,8 +293,6 @@ export default class Desk {
               }
             })
             // -----------------------------
-
-            Move.piece.tier = top.tier; // set tier for placed piece
             Move.piece.src = Move.dst; // update piece position
             this.update_turn() // update game turn
 
@@ -296,9 +303,8 @@ export default class Desk {
             this.board[x][y] = Move.piece
 
             // captured
-            top.tier = -1
             this.captured.push(top)
-            this.board_1D.splice(this.board_1D.indexOf(top), 1)
+            this.board_1D = this.D3_to_1d()
 
             // update territory
             this.territory = this.update_territory(this.board)
@@ -309,31 +315,6 @@ export default class Desk {
             }
 
       }
-    } else if (
-      Move.type == 'ready' &&
-      this.kings.b.src &&
-      this.kings.w.src &&
-      this.state[this.turn] == 'draft'
-    ) {
-      this.state[this.turn] = 'game';
-      this.update_turn();
-
-      this.history.push({
-        Num: this.count++,
-        move: {
-          piece: null,
-          dst: null,
-          type: this.READY
-        }
-      })
-      if (this.state.b == 'game' && this.state.w == 'game') {
-        this.phase = 'game'
-        this.turn = 'w'
-      }
-
-      console.log(this.phase)
-      return Move
-
     } else {
       return null
     }

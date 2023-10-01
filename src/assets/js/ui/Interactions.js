@@ -155,12 +155,13 @@ $('#board label').mousedown(function (event) {
         break;
     }
   }
+  
   if (chess.in_check()['b'] || chess.in_check()['w']) {
     Check(chess.in_check()['b'] ? 'b' : 'w');
     Check(chess.in_check()['w'] ? 'w' : 'b');
   }
 
-  if (chess.in_checkmate() && $('#r-2').css('opacity') != .6) {
+  if (chess.in_checkmate() && socket.end_game==false) {
     CheckMate(chess.in_check().b ? 'w' : 'b')
   }
 });

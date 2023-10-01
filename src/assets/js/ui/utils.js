@@ -240,7 +240,7 @@ export function update_board() {
   })
 
   if (chess.in_check()[chess.turn]) {
-    Check();
+    Check(chess.turn);
   }
 }
 
@@ -253,31 +253,15 @@ export function Update_Game(Move = {
     let res = chess.move(Move);
     turn_update();
     if (res) {
+      
+      
       switch (Move.type) {
         case chess.MOVEMENT:
           update_board();
           break;
 
-
         case chess.ATTACK:
           update_board();
-          let temp = chess.captured;
-          temp = temp[temp.length - 1]
-          if (temp.color == chess.BLACK) {
-            let num = chess.captured.filter(function (x) {
-              return (x.name == temp.name && x.color == 'b')
-            }).length
-            $("#bc-" + temp.symbol).find("sub").text(num)
-            Select_Square("#bc-" + temp.symbol, '#000000')
-
-          } else {
-            let num = chess.captured.filter(function (x) {
-              return (x.name == temp.name && x.color == 'w')
-            }).length
-            $("#wc-" + temp.symbol).find("sub").text(num)
-            Select_Square("#wc-" + temp.symbol, '#000000')
-          }
-
           break;
       }
     }
@@ -316,51 +300,5 @@ export function Reset_Game() {
     src: null,
     dst: null
   }
-
-  let stockpile = {
-    "帥": 1,
-    "兵": 9,
-    "忍": 2,
-    "砲": 2,
-    "砦": 2,
-    "侍": 2,
-    "謀": 1,
-    "筒": 1,
-    "馬": 2,
-    "弓": 2,
-    "大": 6,
-    "中": 4,
-    "小": 4
-  }
-
-  $.each(stockpile, function (key, value) {
-    $(`#bs-${key} sub`).text(value)
-    $(`#ws-${key} sub`).text(value)
-
-    $(`#bc-${key} sub`).text(0)
-    $(`#wc-${key} sub`).text(0)
-  });
-
-  $('#PHASE h3').text('Draft Phase')
-
-  $("#ReadyButton").text('Ready')
-    .css({
-      color: 'green',
-      border: '3px solid green',
-      'background-color': 'transparent'
-    })
-
-  $("#ReadyButton").hover(function () {
-    $(this).css({
-      'background-color': 'green',
-      color: 'white',
-      cursor: 'pointer'
-    })
-  }, function () {
-    $(this).css({
-      'background-color': 'transparent',
-      color: 'green'
-    })
-  })
 
 }

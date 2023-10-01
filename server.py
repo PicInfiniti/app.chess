@@ -3,7 +3,7 @@ from flask_cors import CORS
 from utils import *
 
 app = Flask(__name__)
-CORS(app, origins="http://127.0.0.1:4000")
+CORS(app)
 
 
 @app.route('/heartbeat', methods=['POST'])
