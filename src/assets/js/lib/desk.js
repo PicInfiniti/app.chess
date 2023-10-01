@@ -345,9 +345,9 @@ export default class Desk {
       'b': [],
       'w': []
     };
-    let piece;
-    board.forEach((row, r) => {
-      row.forEach((piece, c) => {
+
+    board.forEach(function (row, r) {
+      row.forEach(function (piece, c) {
         if (piece) {
           territory[piece.color] = territory[piece.color].concat(piece.Possible_moves(board))
         }

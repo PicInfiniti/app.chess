@@ -83,39 +83,12 @@ export function load_history(history) {
   history.forEach(function (el, index) {
     setTimeout(function () {
       let res, piece;
-      switch (el.move.type) {
-        case 'place':
-          piece = el.move.piece
-          piece = chess.stockpiles[piece.color][piece.name][0]
-          res = Update_Game({
-            piece: piece,
-            dst: el.move.dst,
-            type: 'place'
-          }, false, true);
-          break
-
-        case 'ready':
-          res = Update_Game({
-            piece: null,
-            dst: null,
-            type: 'ready'
-          }, false, true);
-          if (chess.phase == 'game') {
-            $('#PHASE h3').text('Game Phase')
-          }
-
-          break
-
-        default:
-          piece = chess.get(el.move.piece.src)
-          res = Update_Game({
-            piece: piece,
-            dst: el.move.dst,
-            type: el.move.type
-          }, false, true);
-          break;
-
-      }
+      piece = chess.get(el.move.piece.src)
+      res = Update_Game({
+        piece: piece,
+        dst: el.move.dst,
+        type: el.move.type
+      }, false, true);
     }, index * interval);
   });
 }
@@ -130,20 +103,19 @@ export function Move(message) {
 }
 
 export function Movement_Possibility(src, dst) {
-  console.log(src)
   let piece = chess.get(src)
   let Possibility = chess.moves(piece)
   return Possibility.filter(move => move.dst == dst)
 }
 
 export function Put_Pieces(e, type, color) {
-  if(color=='b'){
+  if (color == 'b') {
     $(e).css({
       "color": 'black',
       '-webkit-text-stroke': '2px white',
       'text-stroke': '2px white'
     });
-  }else {
+  } else {
     $(e).css({
       "color": 'white',
       '-webkit-text-stroke': '2px black',
