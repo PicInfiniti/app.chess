@@ -33,31 +33,22 @@ $("#result").click(function () {
   Reset_Sections();
 });
 
-$("#ReadyButton").click(function () {
+$("#Resign").click(function () {
   Reset_Sections();
   if (chess.in_check()['b'] || chess.in_check()['w']) {
     Check(chess.in_check()['b'] ? 'b' : 'w');
     Check(chess.in_check()['w'] ? 'w' : 'b');
   }
 
-  if ($("#ReadyButton").text() == 'Resign' && $('#r-2').css('opacity') != .6) {
-    if (socket.opponent != null) {
-      CheckMate(socket.color == 'w' ? 'b' : 'w', 'Resign')
-    } else {
-      CheckMate(chess.turn == 'w' ? 'b' : 'w', 'Resign')
-    }
-
-    socket.click = false
+  if (socket.opponent != null) {
+    CheckMate(socket.color == 'w' ? 'b' : 'w', 'Resign')
+  } else {
+    CheckMate(chess.turn == 'w' ? 'b' : 'w', 'Resign')
   }
 
+  socket.click = false
 
-  if (chess.phase != 'game') {
-    Update_Game({
-      src: null,
-      dst: null,
-      type: chess.READY
-    });
-  }
+
 
   if (chess.phase == 'game') {
     $('#PHASE h3').text('Game Phase')

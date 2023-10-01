@@ -43,7 +43,7 @@
         <div id="result">
           <label type="text" id="r-0" name="0">Check Mate!!!
           </label>
-          <label id="r-1" type="text" name="帥">帥</label>
+          <label id="r-1" type="text" name="♔">♔</label>
           <label type="text" id="r-2">
             <span>Black</span>&nbsp;Wins...
           </label>
@@ -63,63 +63,38 @@
 
         </div>
         <div class="status">
-          <label id="PB" type="text" name="帥">♔</label>
-          <button id="ReadyButton" type="button">Ready</button>
-          <label id="PW" type="text" name="帥">♔</label>
+          <label id="PB" type="text" name="♔">♔</label>
+          <button id="Resign" type="button">Resign</button>
+          <label id="PW" type="text" name="♔">♔</label>
+        </div>
+      </div>
+      <div class="online">
+        <peers>
+          <h4>Online</h4>
+          <peer></peer>
+        </peers>
+      </div>
+
+      <div class="chat-box">
+        <div class="chat-messages" contenteditable="false" id="message-box">
+          <div class="form">
+            <h3 class="title">What's your nickname?</h3>
+            <input class="usernameInput" type="text" maxlength="8" />
+          </div>
+          <ul dcr="message"></ul>
+        </div>
+        <div class="chat-input-container">
+          <unicode-emoji-picker version="15.0" default-group="search" filters-position="left"></unicode-emoji-picker>
+          <button class="emoji-button">😀</button>
+          <input type="text" class="chat-input" id="message-input" placeholder="Type your message">
+
+          <button class="chat-send">Send</button>
         </div>
       </div>
 
 
-      </div>
 
     </info>
-
-    <Capture>
-      <div class="r1">
-        <h2>死</h2>
-      </div>
-      <div class="r2">
-        <div id="black_Captured">
-          <h3>黑</h3>
-          <div name="pile">
-            <!-- <label class="captured boarder" type="text" id="bc-帥" name="帥">帥</label> -->
-            <label class="captured boarder" type="text" id="bc-兵" name="兵">兵</label>
-            <label class="captured boarder" type="text" id="bc-忍" name="忍">忍</label>
-            <label class="captured boarder" type="text" id="bc-砲" name="砲">砲</label>
-            <label class="captured boarder" type="text" id="bc-砦" name="砦">砦</label>
-            <label class="captured boarder" type="text" id="bc-侍" name="侍">侍</label>
-            <label class="captured boarder" type="text" id="bc-謀" name="謀">謀</label>
-            <label class="captured boarder" type="text" id="bc-筒" name="筒">筒</label>
-            <label class="captured boarder" type="text" id="bc-馬" name="馬">馬</label>
-            <label class="captured boarder" type="text" id="bc-弓" name="弓">弓</label>
-            <label class="captured boarder" type="text" id="bc-大" name="大">大</label>
-            <label class="captured boarder" type="text" id="bc-中" name="中">中</label>
-            <label class="captured boarder" type="text" id="bc-小" name="小">小</label>
-          </div>
-        </div>
-
-        <!-- <line></line> -->
-
-        <div id="white_Captured">
-          <h3>白</h3>
-          <div name="pile">
-            <!-- <label class="captured boarder" type="text" id="wc-帥" name="帥">帥</label> -->
-            <label class="captured boarder" type="text" id="wc-兵" name="兵">兵</label>
-            <label class="captured boarder" type="text" id="wc-忍" name="忍">忍</label>
-            <label class="captured boarder" type="text" id="wc-砲" name="砲">砲</label>
-            <label class="captured boarder" type="text" id="wc-砦" name="砦">砦</label>
-            <label class="captured boarder" type="text" id="wc-侍" name="侍">侍</label>
-            <label class="captured boarder" type="text" id="wc-謀" name="謀">謀</label>
-            <label class="captured boarder" type="text" id="wc-筒" name="筒">筒</label>
-            <label class="captured boarder" type="text" id="wc-馬" name="馬">馬</label>
-            <label class="captured boarder" type="text" id="wc-弓" name="弓">弓</label>
-            <label class="captured boarder" type="text" id="wc-大" name="大">大</label>
-            <label class="captured boarder" type="text" id="wc-中" name="中">中</label>
-            <label class="captured boarder" type="text" id="wc-小" name="小">小</label>
-          </div>
-        </div>
-      </div>
-    </Capture>
 
   </container>
 
@@ -130,31 +105,7 @@
   </footer>
 
 
-  <div class="chat-box">
-    <div class="c1">
-      <div class="chat-messages" contenteditable="false" id="message-box">
-        <div class="form">
-          <h3 class="title">What's your nickname?</h3>
-          <input class="usernameInput" type="text" maxlength="8" />
-        </div>
-        <ul dcr="message"></ul>
-      </div>
-      <div class="chat-input-container">
-        <unicode-emoji-picker version="15.0" default-group="search" filters-position="left"></unicode-emoji-picker>
-        <button class="emoji-button">😀</button>
-        <input type="text" class="chat-input" id="message-input" placeholder="Type your message">
 
-        <button class="chat-send">Send</button>
-      </div>
-    </div>
-    <div class="c2">
-      <peers>
-        <h4>Online</h4>
-        <peer></peer>
-      </peers>
-    </div>
-
-  </div>
 </body>
 <script>
   $(".chat-box").draggable({

@@ -52,7 +52,7 @@ container
   border: 2px solid rgba(153, 153, 153, 0.604)
   display: grid
   grid-template-rows: auto
-  grid-template-columns: auto auto auto
+  grid-template-columns: auto auto
   margin: auto
   width: 1500px
   height: 910px
@@ -234,12 +234,11 @@ arena
 
 
 info
-  // border: 2px solid rgba(153, 153, 153, 0.604)
   grid-row: 1
   grid-column: 2
 
   display: grid
-  grid-template-rows: repeat(5, auto)
+  grid-template-rows: repeat(2, auto)
   grid-template-columns: repeat(1, auto)
   margin: 0 auto auto auto
   padding: auto
@@ -263,16 +262,16 @@ info
       padding: 15px
     
       button
-        background-color: transparent
-        color: green
-        border: 3px solid green
+        background-color: white
+        color: red
+        border: 3px solid red
         border-radius: 10px
-        font-size: 15pt
+        font-size: 16pt
         width: 150px
         height: 45px
         margin: 20px
         &:hover
-          background-color: green
+          background-color: red
           color: white
           cursor: pointer
 
@@ -297,205 +296,83 @@ info
         background-color: #ffffff
         font-family: chess
 
-
-
-
-
-Capture
-  // border: 2px solid rgba(153, 153, 153, 0.604)
-  grid-row: 1
-  grid-column: 3
-  display: grid
-  grid-template-rows: auto auto
-  font-size: 23pt
-  line-height: 40px
-  text-align: center
-  margin: 10px auto auto auto
-  width: 130px
-  font-family: chess
-
-
-  .r1 h2
-    margin: 20px
-    font-weight: normal
-  .r2
-    display: grid
-    grid-template-columns: 1fr 1fr
-
-    #black_Captured
-      grid-column: 1
-      margin: auto
-      h3
-        margin-top: auto
-        font-weight: normal
-        margin: auto
-      [name=pile]
-        flex-wrap: wrap
-        label
-          display: block
-          padding: 5px
-          margin: 5px
-          text-align: center
-          width: 40px
-          height: 40px
-
-          &:hover
-            color: white
-            border: 2px solid black
-            background-color: black
-            box-shadow: 0px 0px 10px 2px black
-            font-weight: bold
-            sub
-              color: red
-              font-weight: bold
-
-          sub
-            font-size: 11pt
-            color: red
-            font-weight: bold
-
-    #white_Captured
-      grid-column: 2
-      margin: auto
-      h3
-        margin-top: auto
-        font-weight: normal
-        margin: auto
-      [name=pile]
-        flex-wrap: wrap
-        label
-          display: block
-          padding: 5px
-          margin: 5px
-          text-align: center
-          width: 40px
-          height: 40px
-
-          &:hover
-            color: black
-            border: 2px solid white
-            background-color: white
-            box-shadow: 0px 0px 10px 2px white
-            font-weight: bold
-            sub
-              color: red
-              font-weight: bold
-
-          sub
-            font-size: 11pt
-            color: red
-            font-weight: bold
-
-.buttonBox
-  display: flex
-  float: right
-
-  button, label
-    display: flex
-    justify-content: center
-    align-items: center
-    margin-right: 20px
-    background-color: transparent
-    font-size: 30px
-    width: 100px
-    height: 50px
-    
-
-  #save
-    color: green
-    border: 3px solid green
-    border-radius: 10px
-
-    &:hover
-      background-color: green
-      color: white
-      cursor: pointer
-
-  #load
-    color: purple
-    border: 3px solid purple
-    border-radius: 10px
-
-    &:hover
-      background-color: purple
-      color: white
-      cursor: pointer
-
-// nav bar +++++++++++++++++++++++++++++++++++++++++++++++++
-nav
-  display: block
-  grid-row: 1
-  grid-column: 1
-  color: white
-  height: 5000px
-  width: 250px
-  position: absolute
-  z-index: 3
-  top: 0
-  left: 0
-  background-color: rgba(0, 0, 0, 0.85)
-  overflow-x: hidden
-  transition: 0.5s
-  padding-top: 60px
-  .youtube 
-    display: inline-block
-    vertical-align: middle
-
-  .youtube img 
-    margin-left: 10px
-    width: 40px
-    vertical-align: middle
-
-
-  a, label
-    padding: 8px 8px 8px 32px
-    text-decoration: none
-    font-size: 25px
-    color: #818181
-    display: block
-    transition: 0.3s
-
-  a:hover, label:hover
-    color: #f1f1f1
-    cursor: pointer
-
-  .closebtn 
-    position: absolute
-    top: 0
-    right: 25px
-    font-size: 36px
-    margin-left: 50px
-    
-  
-// nav bar --------------------------------\
-// chat box
-
-/* Style for the chat box */
-.chat-box 
-  bottom: 20px
-  left: 20px
-  display: grid
-  grid-template-rows: auto
-  grid-template-columns: auto auto
-  width: 700px
-  height: 300px
-  background-color: #fff
-  border: 1px solid #ccc
-  padding: 10px
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2)
-  z-index: 3
-  text-align: center
-  opacity: .5
-  &:hover
-    opacity: 1
-  .c1
-    grid-row: 1
+  .online
+    grid-row: 2
     grid-column: 1
+    text-align: left
     width: 100%
-    grid-row: 1
-    grid-column: 1
+    height: 300px
+
+    peers
+      h4
+        font-size: 20pt
+        text-align: left
+        color: blue
+        border-bottom: 1px solid #0000008d
+        width: 80%
+      ul
+        font-size: 15pt
+        list-style-type: upper-greek
+        margin-top: 5px
+
+      peer
+        display: block
+        font-size: 15pt
+        margin: 10px
+        
+
+        [dcr=b]
+          font-size: 15pt
+          font-weight: bold
+          color: black
+          border-radius: 100%
+          outline: 3px #171716 solid
+          background-color: #ffffff
+          font-family: chess
+          margin-right: 5px
+          
+          
+        [dcr=w]
+          font-size: 15pt
+          font-weight: bold
+          color: black
+          border-radius: 100%
+          outline: 3px #d1d1d1 solid
+          background-color: #ffffff
+          font-family: chess
+
+
+        label
+          font-size: pt
+          font-weight: bold
+          color: #0003b9 
+          border-radius: 100%
+          background-color: #ffffff
+          font-family: chess
+          margin-right: 5px
+
+
+  .chat-box 
+    display: grid
+    grid-template-rows: auto
+    grid-template-columns: auto auto
+    width: 700px
+    height: 300px
+    background-color: #fff
+    border: 1px solid #ccc
+    padding: 10px
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2)
+    z-index: 3
+    text-align: center
+    opacity: .5
+
+
+    width: 100%
     display: flex
     flex-direction: column
+
+    &:hover
+      opacity: 1
 
     .chat-messages 
       height: 235px
@@ -598,58 +475,88 @@ nav
         z-index: 4
 
         
-  .c2
-    grid-row: 1
-    grid-column: 2
-    text-align: left
-    width: 250px
-
-    peers
-      h4
-        font-size: 15pt
-        margin: 0
-        text-align: center
-        color: blue
-        border-bottom: 1px solid #000000
-        width: 200px
-      ul
-        font-size: 15pt
-        list-style-type: upper-greek
-        margin-top: 5px
-
-      peer
-        display: block
-        font-size: 15pt
-        margin: 10px
-        
-
-        [dcr=b]
-          font-size: 15pt
-          font-weight: bold
-          color: black
-          border-radius: 100%
-          outline: 3px #171716 solid
-          background-color: #ffffff
-          font-family: chess
-          margin-right: 5px
-          
-          
-        [dcr=w]
-          font-size: 15pt
-          font-weight: bold
-          color: black
-          border-radius: 100%
-          outline: 3px #d1d1d1 solid
-          background-color: #ffffff
-          font-family: chess
 
 
-        label
-          font-size: pt
-          font-weight: bold
-          color: #0003b9 
-          border-radius: 100%
-          background-color: #ffffff
-          font-family: chess
-          margin-right: 5px
 
+
+
+.buttonBox
+  display: flex
+  float: right
+
+  button, label
+    display: flex
+    justify-content: center
+    align-items: center
+    margin-right: 20px
+    background-color: transparent
+    font-size: 30px
+    width: 100px
+    height: 50px
+    
+
+  #save
+    color: green
+    border: 3px solid green
+    border-radius: 10px
+
+    &:hover
+      background-color: green
+      color: white
+      cursor: pointer
+
+  #load
+    color: purple
+    border: 3px solid purple
+    border-radius: 10px
+
+    &:hover
+      background-color: purple
+      color: white
+      cursor: pointer
+
+// nav bar +++++++++++++++++++++++++++++++++++++++++++++++++
+nav
+  display: block
+  grid-row: 1
+  grid-column: 1
+  color: white
+  height: 5000px
+  width: 250px
+  position: absolute
+  z-index: 3
+  top: 0
+  left: 0
+  background-color: rgba(0, 0, 0, 0.85)
+  overflow-x: hidden
+  transition: 0.5s
+  padding-top: 60px
+  .youtube 
+    display: inline-block
+    vertical-align: middle
+
+  .youtube img 
+    margin-left: 10px
+    width: 40px
+    vertical-align: middle
+
+
+  a, label
+    padding: 8px 8px 8px 32px
+    text-decoration: none
+    font-size: 25px
+    color: #818181
+    display: block
+    transition: 0.3s
+
+  a:hover, label:hover
+    color: #f1f1f1
+    cursor: pointer
+
+  .closebtn 
+    position: absolute
+    top: 0
+    right: 25px
+    font-size: 36px
+    margin-left: 50px
+    
