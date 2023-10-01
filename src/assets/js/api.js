@@ -170,7 +170,7 @@ socket.peer.on('close', function () {
 function sendHeartbeat(peerId) { // heartbeat function
   $.ajax({
     type: "POST",
-    url: `${serverUrl}/heartbeat`,
+    url: `${serverUrl}/heartbeat_chess`,
     contentType: "application/json",
     data: JSON.stringify({
       id: peerId,
