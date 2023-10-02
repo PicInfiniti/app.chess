@@ -165,7 +165,7 @@ $('#board label').mousedown(function (event) {
               type: pieceMoves[0].type
             })
 
-            if (res.piece.name == 'pawn' && res.dst[0] == 0) {
+            if (res.piece.name == 'pawn' && (res.dst[0] == 0 || res.dst[0] == 7)) {
               addPromotion('Admin', res)
             }
 
