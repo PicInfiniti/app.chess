@@ -251,17 +251,17 @@ function sendHeartbeat(peerId) { // heartbeat function
         } else {
           if (socket.opponent === null) {
             let div = $("peers peer").html(`. ${socket.peers[peer].username}`); // Create a new <li> element with the text
-            let label = $("<label>").text('私')
+            let label = $("<label>").text('♔')
             div.prepend(label)
 
 
           } else if (socket.color === 'w' && socket.get_accepted) {
-            let label = $("<label dcr='w'>").text('白')
+            let label = $("<label dcr='w'>").text('♔')
             let div = $("peers peer").html(` ${socket.peers[peer].username}`); // Create a new <li> element with the text
             div.prepend(label)
 
           } else if (socket.color === 'b' && socket.get_accepted) {
-            let label = $("<label dcr='b'>").text('黑')
+            let label = $("<label dcr='b'>").text('♔')
             let div = $("peers peer").html(` ${socket.peers[peer].username}`); // Create a new <li> element with the text
             div.prepend(label)
           }
