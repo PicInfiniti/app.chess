@@ -121,15 +121,33 @@ $("#jsonfile").change((event) => {
 
 $('#board label').mousedown(function (event) {
   Reset_Sections();
-  if (socket.click_pos.src == null && socket.click_pos.dst == null) {
-    socket.click_pos.src = $(this).attr("name");
-    
-  } else if (socket.click_pos.src == null) {
-    socket.click_pos.src = $(this).attr("name");
-    socket.click_pos.dst == null
+  let piece = chess.get($(this).attr("name"));
+  let pieceMoves = []
 
-  } else if (socket.click_pos.dst == null) {
+  if (piece == null && socket.click_pos.src == null) {
+    socket.click_pos.dst = null
+  }
+
+  if (piece == null && socket.click_pos.src != null) {
     socket.click_pos.dst = $(this).attr("name");
+    pieceMoves = Movement_Possibility(socket.click_pos.src, socket.click_pos.dst)
+    if (pieceMoves.length == 0) {
+      socket.click_pos.src = null;
+      socket.click_pos.dst = null
+    }
+  }
+
+  if (piece != null && socket.click_pos.src == null) {
+    socket.click_pos.src = $(this).attr("name");
+
+  } else if (piece != null && socket.click_pos.src != null) {
+    socket.click_pos.dst = $(this).attr("name");
+    pieceMoves = Movement_Possibility(socket.click_pos.src, socket.click_pos.dst)
+    
+    if (pieceMoves.length == 0) {
+      socket.click_pos.src = socket.click_pos.dst;
+      socket.click_pos.dst = null
+    }
   }
 
   if (!chess.in_checkmate()) {
@@ -139,13 +157,11 @@ $('#board label').mousedown(function (event) {
         if (socket.click) {
           Show_Moves(chess, $(this).attr("name"), socket.click_pos)
 
-          console.log('Movement_Possibility', socket.click_pos.src, socket.click_pos.dst)
-          let Movement = Movement_Possibility(socket.click_pos.src, socket.click_pos.dst)
-          if (Movement.length == 1) {
+          if (pieceMoves.length == 1) {
             Update_Game({
               piece: chess.get(socket.click_pos.src),
               dst: socket.click_pos.dst,
-              type: Movement[0].type
+              type: pieceMoves[0].type
             })
 
             socket.click_pos.src = null;

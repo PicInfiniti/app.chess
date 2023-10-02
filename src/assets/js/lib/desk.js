@@ -132,7 +132,8 @@ export default class Desk {
 
   in_checkmate(board = this.board) {
     let check = this.in_check(board)
-    return ((check.w || check.b) && this.in_stalemate())
+    // return ((check.w || check.b) && this.in_stalemate())
+    return false
   }
 
   in_stalemate() {
@@ -144,7 +145,6 @@ export default class Desk {
     })
 
     temp.forEach((piece, _) => {
-      console.log('in_stalemate')
       possible_moves = possible_moves.concat(this.moves(piece))
     })
 
@@ -152,7 +152,7 @@ export default class Desk {
   }
   // game rules
   // game rules
-  legal_moves = (move) => {
+  legal_moves (move) {
     let temp_src, temp_top;
     let legal = [move.piece.color == this.turn]; // check turn
     let opposite = this.kings[move.piece.color == 'b' ? 'w' : 'b']
@@ -183,12 +183,13 @@ export default class Desk {
         temp_src = move.piece.src;
         // ------------------------------------------------------------
         move.piece.src = move.dst
-        this.board_1D = this.D3_to_1d()
+        this.board_1D.splice(this.board_1D.indexOf(temp_top), 1)
         // ------------------------------------------------------------
         this.board_temp = this.D1_to_3d()
         legal.push(!this.in_check(this.board_temp)[move.piece.color])
         // ------------------------------------------------------------
         move.piece.src = temp_src
+        this.board_1D.push(temp_top)
 
         break;
     }
@@ -209,7 +210,6 @@ export default class Desk {
 
   moves(piece) {
     if (piece) {
-      console.log(piece.Possible_moves(this.board))
       return piece.Possible_moves(this.board).filter((move) => {
         return this.legal_moves(move)
       })

@@ -204,7 +204,6 @@ export function Select_Square(e, color) {
 }
 
 export function Show_Moves(chess, tag, click_pos) {
-  console.log('Show_Moves')
   let Moves = chess.moves(chess.get(tag))
   if (Moves.length > 0) {
     $.each(Moves, function (_, item) {
