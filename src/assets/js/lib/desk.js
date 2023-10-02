@@ -132,8 +132,7 @@ export default class Desk {
 
   in_checkmate(board = this.board) {
     let check = this.in_check(board)
-    // return ((check.w || check.b) && this.in_stalemate())
-    return false
+    return ((check.w || check.b) && this.in_stalemate())
   }
 
   in_stalemate() {
