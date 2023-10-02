@@ -22,6 +22,58 @@ export class Pawn {
   Possible_moves(board) {
     return pawn_moves(this, board)
   }
+
+  Promotion(type = 'queen') {
+    switch (type) {
+      case 'queen':
+        this.name = 'queen'
+        this.symbol = '♛'
+        this.Possible_moves = function (board) {
+          return path_generator(this, board, ['East', 'North', 'NE', 'SE'])
+        }
+
+        break;
+      case 'rook':
+        this.name = 'rook'
+        this.symbol = '♜'
+        this.Possible_moves = function (board) {
+          return path_generator(this, board, ['East', 'North'])
+        }
+
+        break;
+
+      case 'bishop':
+        this.name = 'bishop'
+        this.symbol = '♝'
+        this.Possible_moves = function (board) {
+          return path_generator(this, board, ['NE', 'SE'])
+        }
+
+        break;
+
+      case 'knight':
+        this.name = 'knight'
+        this.symbol = '♞'
+        this.Possible_moves = function (board) {
+          return point_generator(this, board, [
+            [1, 2],
+            [1, -2],
+            [2, 1],
+            [2, -1],
+            [-1, 2],
+            [-1, -2],
+            [-2, 1],
+            [-2, -1]
+          ])
+        }
+
+        break;
+        
+      default:
+        break;
+    }
+
+  }
 }
 
 export class Queen {

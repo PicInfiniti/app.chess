@@ -12,7 +12,8 @@ import {
   Check,
   CheckMate,
   saveText,
-  load_history
+  load_history,
+  update_board
 } from './utils'
 
 import {
@@ -143,7 +144,7 @@ $('#board label').mousedown(function (event) {
   } else if (piece != null && socket.click_pos.src != null) {
     socket.click_pos.dst = $(this).attr("name");
     pieceMoves = Movement_Possibility(socket.click_pos.src, socket.click_pos.dst)
-    
+
     if (pieceMoves.length == 0) {
       socket.click_pos.src = socket.click_pos.dst;
       socket.click_pos.dst = null
@@ -158,11 +159,15 @@ $('#board label').mousedown(function (event) {
           Show_Moves(chess, $(this).attr("name"), socket.click_pos)
 
           if (pieceMoves.length == 1) {
-            Update_Game({
+            let res = Update_Game({
               piece: chess.get(socket.click_pos.src),
               dst: socket.click_pos.dst,
               type: pieceMoves[0].type
             })
+
+            if (res.piece.name == 'pawn' && res.dst[0] == 0) {
+              addPromotion('Admin', res)
+            }
 
             socket.click_pos.src = null;
             socket.click_pos.dst = null
@@ -188,3 +193,38 @@ $('#board label').mousedown(function (event) {
     CheckMate(chess.in_check().b ? 'w' : 'b')
   }
 });
+
+
+function addPromotion(username, res, style = {
+  'color': 'blue'
+}) {
+
+  console.log('request for paly');
+  const messageBox = $('.chat-messages');
+  const ul = $('.chat-messages ul')
+  const messageElement = $('<li>').html(`
+      <b>Admin: </b>
+      <span>Which promotion you want?</span>
+      <button class="promotion" name="queen">♛</button>
+      <button class="promotion" name="bishop">♝</button>
+      <button class="promotion" name="knight">♞</button>
+      <button class="promotion" name="rook">♜</button>
+    `);
+  messageElement.attr('dcr', 'promotion')
+  messageElement.find('.promotion').click(acceptPromotion.bind(null, res));
+
+  ul.append(messageElement);
+  messageBox.scrollTop(messageBox.prop('scrollHeight'));
+
+}
+
+function acceptPromotion(res, e) {
+  console.log(e, res)
+  res.piece.Promotion(e.target.name)
+  update_board()
+
+  $('[dcr=promotion]').fadeOut(500, function () {
+    $('[dcr=promotion]').remove()
+  })
+
+}
