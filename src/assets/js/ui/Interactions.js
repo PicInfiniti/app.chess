@@ -121,14 +121,25 @@ $("#jsonfile").change((event) => {
 
 $('#board label').mousedown(function (event) {
   Reset_Sections();
+  if (socket.click_pos.src == null && socket.click_pos.dst == null) {
+    socket.click_pos.src = $(this).attr("name");
+    
+  } else if (socket.click_pos.src == null) {
+    socket.click_pos.src = $(this).attr("name");
+    socket.click_pos.dst == null
+
+  } else if (socket.click_pos.dst == null) {
+    socket.click_pos.dst = $(this).attr("name");
+  }
+
   if (!chess.in_checkmate()) {
     switch (event.which) {
       case 1: // grab left click
         Select_Square(this, 'green');
         if (socket.click) {
           Show_Moves(chess, $(this).attr("name"), socket.click_pos)
-          socket.click_pos.dst = $(this).attr("name");
-          
+
+          console.log('Movement_Possibility', socket.click_pos.src, socket.click_pos.dst)
           let Movement = Movement_Possibility(socket.click_pos.src, socket.click_pos.dst)
           if (Movement.length == 1) {
             Update_Game({
@@ -139,12 +150,8 @@ $('#board label').mousedown(function (event) {
 
             socket.click_pos.src = null;
             socket.click_pos.dst = null
-          } else if (Movement.length == 2) {
-            $("#war").css("display", "flex").hide().fadeIn();
-
           }
 
-          
         }
         // --------------------------------------------------------
         break;
@@ -155,13 +162,13 @@ $('#board label').mousedown(function (event) {
         break;
     }
   }
-  
+
   if (chess.in_check()['b'] || chess.in_check()['w']) {
     Check(chess.in_check()['b'] ? 'b' : 'w');
     Check(chess.in_check()['w'] ? 'w' : 'b');
   }
 
-  if (chess.in_checkmate() && socket.end_game==false) {
+  if (chess.in_checkmate() && socket.end_game == false) {
     CheckMate(chess.in_check().b ? 'w' : 'b')
   }
 });

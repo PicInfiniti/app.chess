@@ -144,6 +144,7 @@ export default class Desk {
     })
 
     temp.forEach((piece, _) => {
+      console.log('in_stalemate')
       possible_moves = possible_moves.concat(this.moves(piece))
     })
 

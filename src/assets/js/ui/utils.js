@@ -204,9 +204,9 @@ export function Select_Square(e, color) {
 }
 
 export function Show_Moves(chess, tag, click_pos) {
+  console.log('Show_Moves')
   let Moves = chess.moves(chess.get(tag))
   if (Moves.length > 0) {
-    click_pos.src = tag;
     $.each(Moves, function (_, item) {
       if (item.type == 'move') {
         $('#b-' + item.dst).css({
@@ -253,8 +253,6 @@ export function Update_Game(Move = {
     let res = chess.move(Move);
     turn_update();
     if (res) {
-      
-      
       switch (Move.type) {
         case chess.MOVEMENT:
           update_board();
