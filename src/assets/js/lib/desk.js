@@ -65,7 +65,7 @@ export default class Desk {
   }
 
   // util functions --------------------------------------------
-  board_generator = () => {
+  board_generator() {
     let board = [
       [new Rook('b', '0-0'), new Knight('b', '0-1'), new Bishop('b', '0-2'), new Queen('b', '0-3'), new King('b', '0-4'), new Bishop('b', '0-5'), new Knight('b', '0-6'), new Rook('b', '0-7')],
       [new Pawn('b', '1-0'), new Pawn('b', '1-1'), new Pawn('b', '1-2'), new Pawn('b', '1-3'), new Pawn('b', '1-4'), new Pawn('b', '1-5'), new Pawn('b', '1-6'), new Pawn('b', '1-7')],
@@ -161,7 +161,6 @@ export default class Desk {
     let y = Number(move.dst.split('-')[1])
     if (move.piece.name == 'king') {
       legal.push(!this.king_neighborhood(opposite, move.dst)) // check distance of two king
-      legal.push(this.territory[opposite.color].indexOf(move.dst) == -1) // forbid king to go in opponent territory
     }
 
 
@@ -262,6 +261,9 @@ export default class Desk {
 
           // update territory
           this.territory = this.update_territory(this.board)
+          if (Move.piece.name == 'king' || Move.piece.name == 'rook') {
+            Move.piece.everMoved = true
+          }
           return {
             piece: Move.piece,
               dst: Move.dst,
@@ -310,6 +312,11 @@ export default class Desk {
 
           // update territory
           this.territory = this.update_territory(this.board)
+
+          if (Move.piece.name == 'king' || Move.piece.name == 'rook') {
+            Move.piece.everMoved = true
+          }
+
           return {
             piece: Move.piece,
               dst: Move.dst,
@@ -387,7 +394,9 @@ export default class Desk {
     for (let row of board) {
       for (let piece of row) {
         if (piece) {
-          territory[piece.color] = territory[piece.color].concat(piece.Possible_moves(board, this.history.length == 0 ? null : this.history[this.history.length - 1].move))
+          territory[piece.color] =
+            territory[piece.color]
+            .concat(piece.Possible_moves(board, this.history.length == 0 ? null : this.history[this.history.length - 1].move))
         }
       }
     }
