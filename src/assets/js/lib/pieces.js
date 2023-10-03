@@ -507,53 +507,53 @@ function king_moves(piece, board, points = [
     }
   })
 
-  if(piece.color == 'w'){
+  if (piece.color == 'w') {
     let king = board[7][4]
     let r_rook = board[7][7]
     let l_rook = board[7][0]
-  
-    if (king && king.everMoved==false && r_rook && r_rook.everMoved==false){
+
+    if (king && king.everMoved == false && r_rook && r_rook.everMoved == false && board[7][5] == null && board[7][6] == null) {
       temp.push({
         piece: piece,
         dst: `7-${src.y +2}`,
         type: 'cs'
       })
-  
+
     }
-  
-  if(king && king.everMoved==false && l_rook && l_rook.everMoved==false){
-    temp.push({
-      piece: piece,
-      dst: `7-${src.y -2}`,
-      type: 'cs'
-    })
-  }
-  
+
+    if (king && king.everMoved == false && l_rook && l_rook.everMoved == false && board[7][1] == null && board[7][2] == null && board[7][3] == null) {
+      temp.push({
+        piece: piece,
+        dst: `7-${src.y -2}`,
+        type: 'cs'
+      })
+    }
+
 
   } else {
     let king = board[0][4]
     let r_rook = board[0][7]
     let l_rook = board[0][0]
-  
-    if (king && king.everMoved==false && r_rook && r_rook.everMoved==false){
+
+    if (king && king.everMoved == false && r_rook && r_rook.everMoved == false && board[0][5] == null && board[0][6] == null) {
       temp.push({
         piece: piece,
         dst: `0-${src.y +2}`,
         type: 'cs'
       })
-  
+
     }
-  
-  
-  if(king && king.everMoved==false && l_rook && l_rook.everMoved==false){
-    temp.push({
-      piece: piece,
-      dst: `0-${src.y -2}`,
-      type: 'cs'
-    })
-  }
-  
-    
+
+
+    if (king && king.everMoved == false && l_rook && l_rook.everMoved == false && board[0][1] == null && board[0][2] == null && board[0][3] == null) {
+      temp.push({
+        piece: piece,
+        dst: `0-${src.y -2}`,
+        type: 'cs'
+      })
+    }
+
+
   }
 
   return temp;
