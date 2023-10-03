@@ -6,7 +6,7 @@ export class King {
     this.src = src
   }
 
-  Possible_moves(board) {
+  Possible_moves(board, lastMove = null) {
     return point_generator(this, board)
   }
 }
@@ -19,8 +19,8 @@ export class Pawn {
     this.src = src
   }
 
-  Possible_moves(board) {
-    return pawn_moves(this, board)
+  Possible_moves(board, lastMove = null) {
+    return pawn_moves(this, board, lastMove)
   }
 
   Promotion(type = 'queen') {
@@ -68,7 +68,7 @@ export class Pawn {
         }
 
         break;
-        
+
       default:
         break;
     }
@@ -84,7 +84,7 @@ export class Queen {
     this.src = src
   }
 
-  Possible_moves(board) {
+  Possible_moves(board, lastMove = null) {
     return path_generator(this, board, ['East', 'North', 'NE', 'SE'])
   }
 
@@ -98,7 +98,7 @@ export class Rook {
     this.src = src
   }
 
-  Possible_moves(board) {
+  Possible_moves(board, lastMove = null) {
     return path_generator(this, board, ['East', 'North'])
   }
 
@@ -112,7 +112,7 @@ export class Bishop {
     this.src = src
   }
 
-  Possible_moves(board) {
+  Possible_moves(board, lastMove = null) {
     return path_generator(this, board, ['NE', 'SE'])
   }
 
@@ -127,7 +127,7 @@ export class Knight {
     this.src = src
   }
 
-  Possible_moves(board) {
+  Possible_moves(board, lastMove = null) {
     return point_generator(this, board, [
       [1, 2],
       [1, -2],
@@ -273,11 +273,11 @@ function path_generator(piece, board, direction = ['East']) {
   return path;
 }
 
-function pawn_moves(piece, board) {
+function pawn_moves(piece, board, lastMove) {
   let temp = []
+
   let x = Number(piece.src.split('-')[0])
   let y = Number(piece.src.split('-')[1])
-
 
   if (piece.color == 'b') {
     if (x + 1 < 8 && !board[x + 1][y]) {
@@ -311,6 +311,38 @@ function pawn_moves(piece, board) {
         dst: `${x+2}-${y}`,
         type: 'move'
       })
+    }
+
+    // En passant
+    if (x == 4 && board[x][y - 1] && board[x][y - 1].name == 'pawn' && !board[x + 1][y - 1]) {
+      let s_x = Number(lastMove.piece.src.split('-')[0])
+      let d_x = Number(lastMove.dst.split('-')[0])
+      let _y = Number(lastMove.dst.split('-')[1])
+
+
+      if (lastMove.piece.name == 'pawn' && s_x - d_x > 1 && _y == y - 1) {
+        temp.push({
+          piece: piece,
+          dst: `${x+1}-${y-1}`,
+          type: 'ep'
+        })
+      }
+
+    }
+
+    if (x == 4 && board[x][y + 1] && board[x][y + 1].name == 'pawn' && !board[x + 1][y + 1]) {
+      let s_x = Number(lastMove.piece.src.split('-')[0])
+      let d_x = Number(lastMove.dst.split('-')[0])
+      let _y = Number(lastMove.dst.split('-')[1])
+
+
+      if (lastMove.piece.name == 'pawn' && s_x - d_x > 1 && _y == y + 1) {
+        temp.push({
+          piece: piece,
+          dst: `${x+1}-${y+1}`,
+          type: 'ep'
+        })
+      }
     }
 
 

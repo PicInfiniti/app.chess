@@ -157,7 +157,7 @@ $('#board label').mousedown(function (event) {
         Select_Square(this, 'green');
         if (socket.click) {
           Show_Moves(chess, $(this).attr("name"), socket.click_pos)
-
+          console.log(pieceMoves)
           if (pieceMoves.length == 1) {
             let res = Update_Game({
               piece: chess.get(socket.click_pos.src),

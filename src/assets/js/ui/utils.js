@@ -246,21 +246,13 @@ export function update_board() {
 export function Update_Game(Move = {
   piece: null,
   dst: null,
-  type: constant.PLACE
+  type: 'move'
 }, admin = false, history = false) {
   if (socket.opponent === null || (admin || socket.color === chess.turn) || history) {
     let res = chess.move(Move);
     turn_update();
     if (res) {
-      switch (Move.type) {
-        case chess.MOVEMENT:
-          update_board();
-          break;
-
-        case chess.ATTACK:
-          update_board();
-          break;
-      }
+      update_board();
     }
 
     if (socket.opponent && admin == false && history == false) {

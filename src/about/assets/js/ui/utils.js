@@ -29,7 +29,7 @@ export function Remove_Pieces(e, color = "#ffba75") {
 export function Movement_Possibility(chess, src, dst) {
   let piece = chess.get_top(src)
   let Possibility = chess.moves(piece)
-  return Possibility.filter(move => move.dst == dst)
+  return Possibility.filter(move => move.dst == dst)[0]
 }
 
 export function Reset_Sections(e = [".box", ".tier", ".stockpile", ".captured"]) {

@@ -35,11 +35,11 @@ $('.box').mousedown(function (event) {
 
       let Movement = Movement_Possibility(Piece_Guid[chess], click_pos.src, click_pos.dst)
 
-      if (Movement.length == 1) {
+      if (Movement) {
         Update_Game(Piece_Guid[chess], {
           piece: Piece_Guid[chess].get_top(click_pos.src),
           dst: click_pos.dst,
-          type: Movement[0].type
+          type: Movement.type
         })
         click_pos.src = null;
         click_pos.dst = null;

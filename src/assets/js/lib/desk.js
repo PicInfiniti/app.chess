@@ -15,6 +15,7 @@ export default class Desk {
     this.WHITE = 'w'
     this.ATTACK = 'attack'
     this.MOVEMENT = 'move'
+    this.EP = 'ep'
     this.STACK = 'stack'
     this.PLACE = 'place'
     this.READY = 'ready'
@@ -199,7 +200,7 @@ export default class Desk {
   }
 
   king_neighborhood(king, dst) {
-    if (king.Possible_moves(this.board).filter((move) => {
+    if (king.Possible_moves(this.board, this.history.length == 0 ? null : this.history[this.history.length - 1].move).filter((move) => {
         return move.dst == dst
       }).length > 0) {
       return true
@@ -209,8 +210,9 @@ export default class Desk {
   }
 
   moves(piece) {
+    console.log(piece)
     if (piece) {
-      return piece.Possible_moves(this.board).filter((move) => {
+      return piece.Possible_moves(this.board, this.history.length == 0 ? null : this.history[this.history.length - 1].move).filter((move) => {
         return this.legal_moves(move)
       })
 
@@ -224,7 +226,7 @@ export default class Desk {
     if (this.moves(Move.piece).filter((move) => {
         return Dict_Compare(move, Move)
       }).length == 1) {
-      let top, x, y, index;
+      let top, x, y;
 
       switch (Move.type) {
 
@@ -265,55 +267,109 @@ export default class Desk {
               dst: Move.dst,
               type: Move.type
           }
+          break
 
+        case this.ATTACK:
+          // get top piece of destination -----------------------------
+          top = this.get(Move.dst);
 
+          // remove piece from current place -----------------------------
+          x = Number(Move.piece.src.split('-')[0]);
+          y = Number(Move.piece.src.split('-')[1])
+          this.board[x][y] = null
+          // update army size
+          this.army_size[Move.piece.color == 'b' ? 'w' : 'b']--;
 
-          case this.ATTACK:
-            // get top piece of destination -----------------------------
-            top = this.get(Move.dst);
-
-            // remove piece from current place -----------------------------
-            x = Number(Move.piece.src.split('-')[0]);
-            y = Number(Move.piece.src.split('-')[1])
-            this.board[x][y] = null
-            // update army size
-            this.army_size[Move.piece.color == 'b' ? 'w' : 'b']--;
-
-            // add to history -----------------------------
-            this.history.push({
-              Num: this.count++,
-              move: {
-                piece: {
-                  symbol: Move.piece.symbol,
-                  color: Move.piece.color,
-                  name: Move.piece.name,
-                  src: Move.piece.src
-                },
-                dst: Move.dst,
-                type: this.ATTACK
-              }
-            })
-            // -----------------------------
-            Move.piece.src = Move.dst; // update piece position
-            this.update_turn() // update game turn
-
-
-            // put piece on board desireable position
-            x = Number(Move.dst.split('-')[0]);
-            y = Number(Move.dst.split('-')[1])
-            this.board[x][y] = Move.piece
-
-            // captured
-            this.captured.push(top)
-            this.board_1D = this.D3_to_1d()
-
-            // update territory
-            this.territory = this.update_territory(this.board)
-            return {
-              piece: Move.piece,
-                dst: Move.dst,
-                type: this.ATTACK
+          // add to history -----------------------------
+          this.history.push({
+            Num: this.count++,
+            move: {
+              piece: {
+                symbol: Move.piece.symbol,
+                color: Move.piece.color,
+                name: Move.piece.name,
+                src: Move.piece.src
+              },
+              dst: Move.dst,
+              type: this.ATTACK
             }
+          })
+          // -----------------------------
+          Move.piece.src = Move.dst; // update piece position
+          this.update_turn() // update game turn
+
+
+          // put piece on board desireable position
+          x = Number(Move.dst.split('-')[0]);
+          y = Number(Move.dst.split('-')[1])
+          this.board[x][y] = Move.piece
+
+          // captured
+          this.captured.push(top)
+          this.board_1D = this.D3_to_1d()
+
+          // update territory
+          this.territory = this.update_territory(this.board)
+          return {
+            piece: Move.piece,
+              dst: Move.dst,
+              type: this.ATTACK
+          }
+          break
+
+        case this.EP:
+          // get piece of destination -----------------------------
+          let _x = Number(Move.dst.split('-')[0]);
+          let _y = Number(Move.dst.split('-')[1])
+
+          top = this.board[_x - 1][_y];
+          this.board[_x - 1][_y] = null
+
+          // remove piece from current place -----------------------------
+          x = Number(Move.piece.src.split('-')[0]);
+          y = Number(Move.piece.src.split('-')[1])
+
+          this.board[x][y] = null
+
+          // update army size
+          this.army_size[Move.piece.color == 'b' ? 'w' : 'b']--;
+
+          // add to history -----------------------------
+          this.history.push({
+            Num: this.count++,
+            move: {
+              piece: {
+                symbol: Move.piece.symbol,
+                color: Move.piece.color,
+                name: Move.piece.name,
+                src: Move.piece.src
+              },
+              dst: Move.dst,
+              type: this.ATTACK
+            }
+          })
+          // -----------------------------
+          Move.piece.src = Move.dst; // update piece position
+          this.update_turn() // update game turn
+
+
+          // put piece on board desireable position
+          x = Number(Move.dst.split('-')[0]);
+          y = Number(Move.dst.split('-')[1])
+          this.board[x][y] = Move.piece
+
+          // captured
+          this.captured.push(top)
+          this.board_1D = this.D3_to_1d()
+
+          // update territory
+          this.territory = this.update_territory(this.board)
+          return {
+            piece: Move.piece,
+              dst: Move.dst,
+              type: this.EP
+          }
+          break
 
       }
     } else {
@@ -328,13 +384,14 @@ export default class Desk {
       'w': []
     };
 
-    board.forEach(function (row, r) {
-      row.forEach(function (piece, c) {
+    for(let row of board){
+      for(let piece of row){
         if (piece) {
-          territory[piece.color] = territory[piece.color].concat(piece.Possible_moves(board))
+          territory[piece.color] = territory[piece.color].concat(piece.Possible_moves(board, this.history.length == 0 ? null : this.history[this.history.length - 1].move))
         }
-      })
-    })
+      }
+    }
+
     territory.b = territory.b.map((move) => {
       return move.dst
     })
