@@ -67,15 +67,26 @@ export default class Desk {
   // util functions --------------------------------------------
   board_generator() {
     let board = [
-      [new Rook('b', '0-0'), new Knight('b', '0-1'), new Bishop('b', '0-2'), new Queen('b', '0-3'), new King('b', '0-4'), new Bishop('b', '0-5'), new Knight('b', '0-6'), new Rook('b', '0-7')],
-      [new Pawn('b', '1-0'), new Pawn('b', '1-1'), new Pawn('b', '1-2'), new Pawn('b', '1-3'), new Pawn('b', '1-4'), new Pawn('b', '1-5'), new Pawn('b', '1-6'), new Pawn('b', '1-7')],
+      [new Rook('b', '0-0'), null, null, null, new King('b', '0-4'), null, null, new Rook('b', '0-7')],
       [null, null, null, null, null, null, null, null],
       [null, null, null, null, null, null, null, null],
       [null, null, null, null, null, null, null, null],
       [null, null, null, null, null, null, null, null],
-      [new Pawn('w', '6-0'), new Pawn('w', '6-1'), new Pawn('w', '6-2'), new Pawn('w', '6-3'), new Pawn('w', '6-4'), new Pawn('w', '6-5'), new Pawn('w', '6-6'), new Pawn('w', '6-7')],
-      [new Rook('w', '7-0'), new Knight('w', '7-1'), new Bishop('w', '7-2'), new Queen('w', '7-3'), new King('w', '7-4'), new Bishop('w', '7-5'), new Knight('w', '7-6'), new Rook('w', '7-7')]
+      [null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null],
+      [new Rook('w', '7-0'), null, null, null, new King('w', '7-4'), null, null, new Rook('w', '7-7')]
     ]
+
+    // let board = [
+    //   [new Rook('b', '0-0'), new Knight('b', '0-1'), new Bishop('b', '0-2'), new Queen('b', '0-3'), new King('b', '0-4'), new Bishop('b', '0-5'), new Knight('b', '0-6'), new Rook('b', '0-7')],
+    //   [new Pawn('b', '1-0'), new Pawn('b', '1-1'), new Pawn('b', '1-2'), new Pawn('b', '1-3'), new Pawn('b', '1-4'), new Pawn('b', '1-5'), new Pawn('b', '1-6'), new Pawn('b', '1-7')],
+    //   [null, null, null, null, null, null, null, null],
+    //   [null, null, null, null, null, null, null, null],
+    //   [null, null, null, null, null, null, null, null],
+    //   [null, null, null, null, null, null, null, null],
+    //   [new Pawn('w', '6-0'), new Pawn('w', '6-1'), new Pawn('w', '6-2'), new Pawn('w', '6-3'), new Pawn('w', '6-4'), new Pawn('w', '6-5'), new Pawn('w', '6-6'), new Pawn('w', '6-7')],
+    //   [new Rook('w', '7-0'), new Knight('w', '7-1'), new Bishop('w', '7-2'), new Queen('w', '7-3'), new King('w', '7-4'), new Bishop('w', '7-5'), new Knight('w', '7-6'), new Rook('w', '7-7')]
+    // ]
 
     return board;
   }
@@ -264,6 +275,7 @@ export default class Desk {
           if (Move.piece.name == 'king' || Move.piece.name == 'rook') {
             Move.piece.everMoved = true
           }
+
           return {
             piece: Move.piece,
               dst: Move.dst,
@@ -375,6 +387,58 @@ export default class Desk {
             piece: Move.piece,
               dst: Move.dst,
               type: this.EP
+          }
+          break
+
+        case 'cs':
+
+          x = Number(Move.piece.src.split('-')[0]);
+          y = Number(Move.piece.src.split('-')[1])
+          console.log(y)
+          let rook_x = x
+          let rook_y = Number(Move.dst[2]) == 2 ? 0 : 7
+          let rook = this.board[rook_x][rook_y]
+
+
+          this.board[x][y] = null
+          this.board[rook_x][rook_y] = null
+
+          // add to history -----------------------------
+          this.history.push({
+            Num: this.count++,
+            move: {
+              piece: {
+                symbol: Move.piece.symbol,
+                color: Move.piece.color,
+                name: Move.piece.name,
+                src: Move.piece.src
+              },
+              dst: Move.dst,
+              type: 'cs'
+            }
+          })
+
+          // ---------------------------
+          Move.piece.src = Move.dst; // update piece position
+          rook.src = `${rook_x}-${rook_y==7?5:3}`
+          this.update_turn() // update game turn
+
+
+          // put piece on board desireable position
+          x = Number(Move.dst.split('-')[0]);
+          y = Number(Move.dst.split('-')[1])
+          this.board[x][y] = Move.piece
+          this.board[rook_x][rook_y==7?5:3] = rook
+
+          // update territory
+          this.territory = this.update_territory(this.board)
+          Move.piece.everMoved = true
+          
+
+          return {
+            piece: Move.piece,
+              dst: Move.dst,
+              type: Move.type
           }
           break
 

@@ -213,11 +213,17 @@ export function Show_Moves(chess, tag, click_pos) {
           "box-shadow": "0px 0px 10px 2px #009699",
           'background-color': "#009699"
         });
-      } else {
+      } else if (item.type == 'attack') {
         $('#b-' + item.dst).css({
           "border": "2px solid red",
           "box-shadow": "0px 0px 10px 2px red",
           'background-color': "red"
+        })
+      } else {
+        $('#b-' + item.dst).css({
+          "border": "2px solid orange",
+          "box-shadow": "0px 0px 10px 2px orange",
+          'background-color': "orange"
         });
       }
 

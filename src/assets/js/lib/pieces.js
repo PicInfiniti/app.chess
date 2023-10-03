@@ -4,10 +4,11 @@ export class King {
     this.name = 'king'
     this.symbol = '♚'
     this.src = src
+    this.everMoved = false
   }
 
   Possible_moves(board, lastMove = null) {
-    return point_generator(this, board)
+    return king_moves(this, board)
   }
 }
 
@@ -96,6 +97,7 @@ export class Rook {
     this.name = 'rook'
     this.symbol = '♜'
     this.src = src
+    this.everMoved = false
   }
 
   Possible_moves(board, lastMove = null) {
@@ -466,4 +468,93 @@ function movement_limitation(piece, top_piece, dst) {
     }]
 
   }
+}
+
+function king_moves(piece, board, points = [
+  [1, -1],
+  [1, 0],
+  [1, 1],
+  [-1, -1],
+  [-1, 0],
+  [-1, 1],
+  [0, -1],
+  [0, 1]
+]) {
+  let temp = [];
+  let src = {
+    x: Number(piece.src.split('-')[0]),
+    y: Number(piece.src.split('-')[1])
+  }
+
+  points.forEach(function (item) {
+    let x = piece.color == 'b' ? item[0] : -item[0]
+    if (
+      src.x + x < 8 && src.x + x >= 0 &&
+      src.y + item[1] < 8 && src.y + item[1] >= 0
+    ) {
+      if (board[src.x + x][src.y + item[1]]) {
+        let top = board[src.x + x][src.y + item[1]]
+        temp = temp.concat(movement_limitation(piece, top, (src.x + x) + '-' + (src.y + item[1])))
+      } else {
+        temp.push({
+          piece: piece,
+          dst: (src.x + x) + '-' + (src.y + item[1]),
+          type: 'move'
+        })
+      }
+
+
+    }
+  })
+
+  if(piece.color == 'w'){
+    let king = board[7][4]
+    let r_rook = board[7][7]
+    let l_rook = board[7][0]
+  
+    if (king && king.everMoved==false && r_rook && r_rook.everMoved==false){
+      temp.push({
+        piece: piece,
+        dst: `7-${src.y +2}`,
+        type: 'cs'
+      })
+  
+    }
+  
+  if(king && king.everMoved==false && l_rook && l_rook.everMoved==false){
+    temp.push({
+      piece: piece,
+      dst: `7-${src.y -2}`,
+      type: 'cs'
+    })
+  }
+  
+
+  } else {
+    let king = board[0][4]
+    let r_rook = board[0][7]
+    let l_rook = board[0][0]
+  
+    if (king && king.everMoved==false && r_rook && r_rook.everMoved==false){
+      temp.push({
+        piece: piece,
+        dst: `0-${src.y +2}`,
+        type: 'cs'
+      })
+  
+    }
+  
+  
+  if(king && king.everMoved==false && l_rook && l_rook.everMoved==false){
+    temp.push({
+      piece: piece,
+      dst: `0-${src.y -2}`,
+      type: 'cs'
+    })
+  }
+  
+    
+  }
+
+  return temp;
 }
