@@ -379,6 +379,38 @@ function pawn_moves(piece, board, lastMove) {
         type: 'move'
       })
     }
+
+    // En passant
+    if (x == 3 && board[x][y - 1] && board[x][y - 1].name == 'pawn' && !board[x + 1][y - 1]) {
+      let s_x = Number(lastMove.piece.src.split('-')[0])
+      let d_x = Number(lastMove.dst.split('-')[0])
+      let _y = Number(lastMove.dst.split('-')[1])
+
+
+      if (lastMove.piece.name == 'pawn' && d_x - s_x > 1 && _y == y - 1) {
+        temp.push({
+          piece: piece,
+          dst: `${x-1}-${y-1}`,
+          type: 'ep'
+        })
+      }
+
+    }
+
+    if (x == 3 && board[x][y + 1] && board[x][y + 1].name == 'pawn' && !board[x + 1][y + 1]) {
+      let s_x = Number(lastMove.piece.src.split('-')[0])
+      let d_x = Number(lastMove.dst.split('-')[0])
+      let _y = Number(lastMove.dst.split('-')[1])
+
+
+      if (lastMove.piece.name == 'pawn' && d_x - s_x > 1 && _y == y + 1) {
+        temp.push({
+          piece: piece,
+          dst: `${x-1}-${y+1}`,
+          type: 'ep'
+        })
+      }
+    }
   }
 
   return temp;

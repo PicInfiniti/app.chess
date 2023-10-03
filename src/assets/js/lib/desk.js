@@ -323,7 +323,7 @@ export default class Desk {
           let _y = Number(Move.dst.split('-')[1])
 
           top = this.board[_x - 1][_y];
-          this.board[_x - 1][_y] = null
+          this.board[Move.piece.color == 'b' ? _x - 1 : _x + 1][_y] = null
 
           // remove piece from current place -----------------------------
           x = Number(Move.piece.src.split('-')[0]);
@@ -384,8 +384,8 @@ export default class Desk {
       'w': []
     };
 
-    for(let row of board){
-      for(let piece of row){
+    for (let row of board) {
+      for (let piece of row) {
         if (piece) {
           territory[piece.color] = territory[piece.color].concat(piece.Possible_moves(board, this.history.length == 0 ? null : this.history[this.history.length - 1].move))
         }
