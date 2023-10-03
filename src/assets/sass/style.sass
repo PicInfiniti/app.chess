@@ -17,6 +17,7 @@ body
   user-select: none
   background-color: #ffedb8
 
+
 a
   text-decoration: none
 
@@ -33,19 +34,12 @@ a
 
 
 footer
-  position: relative
+  position: fixed
   bottom: 0
   left: 40%
   margin-top: px
   color: rgb(214, 139, 0)
   font-size: 20px
-
-
-.about
-  text-align: center
-  padding-top: 10px
-  padding-bottom: 10px
-  font-size: 20pt
 
 
 container
@@ -349,129 +343,130 @@ info
           margin-right: 5px
 
 
-  .chat-box 
-    display: grid
-    grid-template-rows: auto
-    grid-template-columns: auto auto
-    width: 700px
-    height: 300px
-    background-color: #fff
+.chat-box
+  display: grid
+  grid-template-rows: auto
+  grid-template-columns: auto auto
+  
+  width: 500px
+  height: 300px
+  background-color: #fff
+  border: 1px solid #ccc
+  padding: 10px
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2)
+  z-index: 5
+  text-align: center
+  opacity: .5
+
+
+
+  display: flex
+  flex-direction: column
+
+  &:hover
+    opacity: 1
+
+  .chat-messages 
+    height: 250px
+    overflow: auto
     border: 1px solid #ccc
-    padding: 10px
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2)
-    z-index: 3
-    text-align: center
-    opacity: .5
-
-
-    width: 100%
+    padding: 5px
+    margin-bottom: 10px
+    background-color: #000000
+    color: white
+    transition: background-color 1s
     display: flex
-    flex-direction: column
+    justify-content: center
+    align-items: center
+    font-size: 15pt
+    font-family: 'Times New Roman', Times, serif, emoji
+    span
+      font-size: 13pt
+      word-wrap: true
+      
+    .btn-yes, .btn-no 
+      padding: 0
+      margin: 0
+      width: 30px
+      height: 15px
+      border: none
+      cursor: pointer
+      font-size: 10pt
+      color: white
+      display: inline
+      border-radius: 3px
 
-    &:hover
-      opacity: 1
 
-    .chat-messages 
-      height: 235px
-      overflow: auto
+    .btn-yes 
+      background-color: #4CAF50
+
+    .btn-no 
+      background-color: #f44336
+
+
+    ul
+      margin: 0
+      padding-left: 20px
+      display: none
+      word-wrap: break-word
+      word-break: break-all
+    
+    .form
+      h3
+        font-size: 20pt
+        margin: 10px
+      .usernameInput
+        margin: 10px
+        font-size: 15pt
+        background-color: transparent
+        border: none
+        border-bottom: 1px solid #fff
+        outline: none
+        text-align: center
+        color: white
+        width: 50%
+        font-weight: bold
+
+
+  .chat-input-container 
+    height: 50px
+    display: flex
+    .chat-input 
+      font-size: 15pt
+      flex: 1
       border: 1px solid #ccc
       padding: 5px
-      margin-bottom: 10px
-      background-color: #000000
-      color: white
-      transition: background-color 1s
-      display: flex
-      justify-content: center
-      align-items: center
-      font-size: 15pt
+      margin-right: 10px
       font-family: 'Times New Roman', Times, serif, emoji
-      span
-        font-size: 13pt
-        word-wrap: true
-        
-      .btn-yes, .btn-no 
-        padding: 0
-        margin: 0
-        width: 30px
-        height: 15px
-        border: none
-        cursor: pointer
-        font-size: 10pt
-        color: white
-        display: inline
-        border-radius: 3px
 
 
-      .btn-yes 
-        background-color: #4CAF50
+    .chat-send 
+      background-color: #007bff
+      color: #fff
+      border: none
+      width: 100px
+      padding: 5px 10px
+      cursor: pointer
+      font-size: 15pt
+      border-radius: 10px
 
-      .btn-no 
-        background-color: #f44336
+    .emoji-button
+      background-color: white
+      color: black
+      border: none
+      cursor: pointer
+      font-size: 20pt
+      font-family: emoji
 
+    unicode-emoji-picker
+      bottom: 10px
+      left: 520px
+      position: absolute
+      --emoji-font-family: emoji
+      display: none
+      z-index: 4
 
-      ul
-        margin: 0
-        padding-left: 20px
-        display: none
-        word-wrap: break-word
-        word-break: break-all
       
-      .form
-        h3
-          font-size: 20pt
-          margin: 10px
-        .usernameInput
-          margin: 10px
-          font-size: 15pt
-          background-color: transparent
-          border: none
-          border-bottom: 1px solid #fff
-          outline: none
-          text-align: center
-          color: white
-          width: 50%
-          font-weight: bold
-
-
-    .chat-input-container 
-      height: 40px
-      display: flex
-      .chat-input 
-        font-size: 15pt
-        flex: 1
-        border: 1px solid #ccc
-        padding: 5px
-        margin-right: 10px
-        font-family: 'Times New Roman', Times, serif, emoji
-
-
-      .chat-send 
-        background-color: #007bff
-        color: #fff
-        border: none
-        width: 100px
-        padding: 5px 10px
-        cursor: pointer
-        font-size: 15pt
-        border-radius: 10px
-
-      .emoji-button
-        background-color: white
-        color: black
-        border: none
-        cursor: pointer
-        font-size: 20pt
-        font-family: emoji
-
-      unicode-emoji-picker
-        bottom: 10px
-        left: 520px
-        position: absolute
-        --emoji-font-family: emoji
-        display: none
-        z-index: 4
-
-        
 .buttonBox
   display: flex
   float: right

@@ -85,16 +85,17 @@
           <unicode-emoji-picker version="15.0" default-group="search" filters-position="left"></unicode-emoji-picker>
           <button class="emoji-button">😀</button>
           <input type="text" class="chat-input" id="message-input" placeholder="Type your message">
-
+    
           <button class="chat-send">Send</button>
         </div>
       </div>
 
 
-
     </info>
-
+    
   </container>
+  
+
 
   <footer>
     <div>
@@ -106,23 +107,20 @@
 
 </body>
 <script>
-  $(".chat-box").draggable({
-    containment: "body",
-    scroll: false
-  });
+  $(".chat-box").draggable();
 
   $(".chat-box").resizable({
     maxWidth: 1000,
-    minWidth: 650,
-    aspectRatio: 7 / 3,
+    minWidth: 500,
+    aspectRatio: 5 / 3,
     handles: 'ne, n, e, s, w, sw, nw',
     resize: function (event, ui) {
       $('.chat-messages').css({
-        'height': `${ui.size.height-65}px`
+        'height': `${ui.size.height-50}px`
       })
 
-      $('.chat-box .form h3').css("font-size", `${ui.size.width / 35}pt`);
-      $('.chat-box .form .usernameInput').css("font-size", `${ui.size.width / 46.5}pt`)
+      $('.chat-box .form h3').css("font-size", `${ui.size.width / 25}pt`);
+      $('.chat-box .form .usernameInput').css("font-size", `${ui.size.width / 33}pt`)
       console.log($('.chat-box .form h3').css("font-size"), $('.chat-box .form .usernameInput').css("font-size"))
     }
 
