@@ -209,7 +209,6 @@ export default class Desk {
   }
 
   moves(piece) {
-    console.log(piece)
     if (piece) {
       return piece.Possible_moves(this.board, this.history.length == 0 ? null : this.history[this.history.length - 1].move).filter((move) => {
         return this.legal_moves(move)
@@ -353,7 +352,7 @@ export default class Desk {
                 src: Move.piece.src
               },
               dst: Move.dst,
-              type: this.ATTACK
+              type: this.EP
             }
           })
           // -----------------------------
@@ -383,7 +382,7 @@ export default class Desk {
 
           x = Number(Move.piece.src.split('-')[0]);
           y = Number(Move.piece.src.split('-')[1])
-          console.log(y)
+ 
           let rook_x = x
           let rook_y = Number(Move.dst[2]) == 2 ? 0 : 7
           let rook = this.board[rook_x][rook_y]
@@ -480,8 +479,8 @@ export default class Desk {
     this.board_temp;
     this.turn = this.WHITE
     this.kings = {
-      b: new King('b'),
-      w: new King('w')
+      b: this.get('0-4'),
+      w: this.get('7-4')
     }
 
     this.captured = []

@@ -71,6 +71,7 @@ socket.peer.on('connection', function (conn) {
       socket.data = data
       addRequest(data.username)
     } else if (data.message == 'move') {
+
       let piece = chess.get(data.move.piece.src)
       let res = Update_Game({
         piece: piece,

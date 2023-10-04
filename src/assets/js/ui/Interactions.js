@@ -157,7 +157,6 @@ $('#board label').mousedown(function (event) {
         Select_Square(this, 'green');
         if (socket.click) {
           Show_Moves(chess, $(this).attr("name"), socket.click_pos)
-          console.log(pieceMoves)
           if (pieceMoves.length == 1) {
             let res = Update_Game({
               piece: chess.get(socket.click_pos.src),
@@ -165,7 +164,8 @@ $('#board label').mousedown(function (event) {
               type: pieceMoves[0].type
             })
 
-            if (res.piece.name == 'pawn' && (res.dst[0] == 0 || res.dst[0] == 7)) {
+
+            if (res && res.piece.name == 'pawn' && (res.dst[0] == 0 || res.dst[0] == 7)) {
               addPromotion('Admin', res)
             }
 
