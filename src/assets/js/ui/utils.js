@@ -123,9 +123,7 @@ export function Put_Pieces(e, type, color) {
     });
   }
 
-
-
-  $(e).text(type);
+  $(e).find('span').text(type);
 }
 
 
@@ -169,7 +167,7 @@ function Remove_Pieces(e, type = '0', color = "#ffcf9e00") {
     '-webkit-text-stroke': '0px transparent',
     'text-stroke': '0px transparent'
   });
-  $(e).text('');
+  $(e).find('span').text('');
 }
 
 export function saveText(text, filename) {

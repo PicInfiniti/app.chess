@@ -13,16 +13,14 @@ import {
   CheckMate,
   saveText,
   load_history,
-  update_board
+  update_board,
+  addMessage
 } from './utils'
 
 import {
   chess
 } from './setup'
 
-import {
-  Constants
-} from '../constants'
 import {
   socket
 } from '../api'
@@ -232,47 +230,29 @@ function acceptPromotion(res, e) {
 
 // darg
 
-$("#board label").draggable({
-  revert: 'valid'
+$("#board label span").draggable({
+  revert: true,
 })
 
 $("#board label").droppable({
-  accept: "#board label",
+  accept: "#board label span ",
   drop: function (event, ui) {
+    
+    socket.click_pos.src = ui.draggable.parent().attr("name");
+    socket.click_pos.dst = $(this).attr("name")
+    let piece = chess.get(socket.click_pos.src )
 
-    let piece = chess.get(ui.draggable.attr("name"))
-    let pieceMoves = []
-
-    if (piece == null && socket.click_pos.src == null) {
-      socket.click_pos.dst = null
+    console.log(piece, socket.click_pos)
+    if (piece.color!=chess.turn){
+      addMessage('Not Your Turn!!!', 'Admin')
     }
 
-    if (piece == null && socket.click_pos.src != null) {
-      socket.click_pos.dst = $(this).attr("name");
-      pieceMoves = Movement_Possibility(socket.click_pos.src, socket.click_pos.dst)
-      if (pieceMoves.length == 0) {
-        socket.click_pos.src = null;
-        socket.click_pos.dst = null
-      }
-    }
-
-    if (piece != null && socket.click_pos.src == null) {
-      socket.click_pos.src = $(this).attr("name");
-
-    } else if (piece != null && socket.click_pos.src != null) {
-      socket.click_pos.dst = $(this).attr("name");
-      pieceMoves = Movement_Possibility(socket.click_pos.src, socket.click_pos.dst)
-
-      if (pieceMoves.length == 0) {
-        socket.click_pos.src = socket.click_pos.dst;
-        socket.click_pos.dst = null
-      }
-    }
+    let pieceMoves = Movement_Possibility(socket.click_pos.src, socket.click_pos.dst)
 
     if (!chess.in_checkmate()) {
       switch (event.which) {
         case 1: // grab left click
-          Select_Square(this, 'green');
+        Reset_Sections()
           if (socket.click) {
             Show_Moves(chess, $(this).attr("name"), socket.click_pos)
             if (pieceMoves.length == 1) {
@@ -282,8 +262,8 @@ $("#board label").droppable({
                 type: pieceMoves[0].type
               })
 
-              if (!res){
-                ui.helper.animate(ui.originalPosition)
+              if (!res) {
+                ui.helper.animate(ui.originalPosition, 'fast')
               }
 
 
