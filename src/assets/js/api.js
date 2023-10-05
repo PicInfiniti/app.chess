@@ -42,7 +42,7 @@ socket = {
   click_pos: { // keep track of click positions
     src: null,
     dst: null
-  }
+  },
 }
 
 document.socket = socket

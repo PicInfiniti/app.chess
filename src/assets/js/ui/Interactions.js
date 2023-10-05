@@ -232,6 +232,7 @@ function acceptPromotion(res, e) {
 
 $("#board label span").draggable({
   revert: true,
+  revertDuration: 300
 })
 
 $("#board label").droppable({

@@ -129,7 +129,7 @@ export function Put_Pieces(e, type, color) {
 
 export function Reset_Sections() {
 
-  for(let item of $("#board label")){
+  for (let item of $("#board label")) {
     let box = $(item).attr('name')
     let x = Number(box[0])
     let y = Number(box[2])
@@ -138,7 +138,7 @@ export function Reset_Sections() {
       "box-shadow": "",
       'background-color': (x + y) % 2 == 0 ? "#ffba75" : "#EB9E53"
     }); // change color of all boxes
-  
+
   }
 
 
@@ -258,11 +258,39 @@ export function Update_Game(Move = {
   type: 'move'
 }, admin = false, history = false) {
   if (socket.opponent === null || (admin || socket.color === chess.turn) || history) {
+    socket.click = false
+    let $src = $(`#b-${Move.piece.src} span`);
+    let s_x = Number(Move.piece.src[0])
+    let s_y = Number(Move.piece.src[2])
+    let d_x = Number(Move.dst[0])
+    let d_y = Number(Move.dst[2])
+
     let res = chess.move(Move);
+
     turn_update();
-    if (res) {
-      update_board();
+
+    var animationDuration = 400;
+
+    function moveElement() {
+      var targetTop = `${(d_x-s_x)*100}px`
+      var targetLeft = `${(d_y-s_y)*100}px`
+      $src.animate({
+        top: targetTop,
+        left: targetLeft
+      }, animationDuration, function () {
+        // This function will be executed after the animation is complete
+        console.log("Animation finished. Triggering a function...");
+        // You can call your function here
+        $src.css({
+          top: "0px",
+          left: "0px"
+        })
+        update_board();
+        socket.click = true
+
+      });
     }
+    moveElement()
 
     if (socket.opponent && admin == false && history == false) {
       let lastMove = chess.history[chess.history.length - 1]
@@ -300,3 +328,5 @@ export function Reset_Game() {
   }
 
 }
+
+document.update_board = update_board
