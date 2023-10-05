@@ -129,14 +129,19 @@ export function Put_Pieces(e, type, color) {
 }
 
 
-export function Reset_Sections(e = ["#board label", ".captured"]) {
-  $.each(e, function (index, item) {
+export function Reset_Sections() {
+
+  for(let item of $("#board label")){
+    let box = $(item).attr('name')
+    let x = Number(box[0])
+    let y = Number(box[2])
     $(item).css({
-      border: "",
+      'border': "",
       "box-shadow": "",
-      'background-color': ""
+      'background-color': (x + y) % 2 == 0 ? "#ffba75" : "#EB9E53"
     }); // change color of all boxes
-  });
+  
+  }
 
 
   if ($('#result').css('opacity') == 1) {
@@ -164,7 +169,7 @@ function Remove_Pieces(e, type = '0', color = "#ffcf9e00") {
     '-webkit-text-stroke': '0px transparent',
     'text-stroke': '0px transparent'
   });
-  $(e).text(type);
+  $(e).text('');
 }
 
 export function saveText(text, filename) {

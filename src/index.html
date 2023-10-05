@@ -24,9 +24,7 @@
     <label id="save">Save</label>
     <label for="jsonfile" id="load">Load</label>
     <input hidden id="jsonfile" type="file">
-    <a href="./about/index.html" target="_blank">Game Rules</a>
-    <a href="https://youtube.com/playlist?list=PLaa8UNGS4QECYuqBIFAzl5lI7vjtk7H4W&si=QvGcUYNjx9c6neW0" class="youtube"
-      target="_blank">How to Play<img src="./assets/img/youtube.png"></a>
+    <a href="https://en.wikipedia.org/wiki/Rules_of_chess" target="_blank">Game Rules</a>
     <a href="https://picinfiniti.net/" target="_blank">About</a>
   </nav>
   <container>
@@ -106,25 +104,4 @@
 
 
 </body>
-<script>
-  $(".chat-box").draggable();
-
-  $(".chat-box").resizable({
-    maxWidth: 1000,
-    minWidth: 500,
-    aspectRatio: 5 / 3,
-    handles: 'ne, n, e, s, w, sw, nw',
-    resize: function (event, ui) {
-      $('.chat-messages').css({
-        'height': `${ui.size.height-50}px`
-      })
-
-      $('.chat-box .form h3').css("font-size", `${ui.size.width / 25}pt`);
-      $('.chat-box .form .usernameInput').css("font-size", `${ui.size.width / 33}pt`)
-      console.log($('.chat-box .form h3').css("font-size"), $('.chat-box .form .usernameInput').css("font-size"))
-    }
-
-  });
-</script>
-
 </html>

@@ -167,3 +167,22 @@ $('#leave_game').click(function(){
     socket.opponent = null
   }
 })
+
+$(".chat-box").draggable();
+
+$(".chat-box").resizable({
+  maxWidth: 1000,
+  minWidth: 500,
+  aspectRatio: 5 / 3,
+  handles: 'ne, n, e, s, w, sw, nw',
+  resize: function (event, ui) {
+    $('.chat-messages').css({
+      'height': `${ui.size.height-50}px`
+    })
+
+    $('.chat-box .form h3').css("font-size", `${ui.size.width / 25}pt`);
+    $('.chat-box .form .usernameInput').css("font-size", `${ui.size.width / 33}pt`)
+    console.log($('.chat-box .form h3').css("font-size"), $('.chat-box .form .usernameInput').css("font-size"))
+  }
+
+});

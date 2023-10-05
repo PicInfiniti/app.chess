@@ -228,3 +228,91 @@ function acceptPromotion(res, e) {
   })
 
 }
+
+
+// darg
+
+$("#board label").draggable({
+  revert: 'valid'
+})
+
+$("#board label").droppable({
+  accept: "#board label",
+  drop: function (event, ui) {
+
+    let piece = chess.get(ui.draggable.attr("name"))
+    let pieceMoves = []
+
+    if (piece == null && socket.click_pos.src == null) {
+      socket.click_pos.dst = null
+    }
+
+    if (piece == null && socket.click_pos.src != null) {
+      socket.click_pos.dst = $(this).attr("name");
+      pieceMoves = Movement_Possibility(socket.click_pos.src, socket.click_pos.dst)
+      if (pieceMoves.length == 0) {
+        socket.click_pos.src = null;
+        socket.click_pos.dst = null
+      }
+    }
+
+    if (piece != null && socket.click_pos.src == null) {
+      socket.click_pos.src = $(this).attr("name");
+
+    } else if (piece != null && socket.click_pos.src != null) {
+      socket.click_pos.dst = $(this).attr("name");
+      pieceMoves = Movement_Possibility(socket.click_pos.src, socket.click_pos.dst)
+
+      if (pieceMoves.length == 0) {
+        socket.click_pos.src = socket.click_pos.dst;
+        socket.click_pos.dst = null
+      }
+    }
+
+    if (!chess.in_checkmate()) {
+      switch (event.which) {
+        case 1: // grab left click
+          Select_Square(this, 'green');
+          if (socket.click) {
+            Show_Moves(chess, $(this).attr("name"), socket.click_pos)
+            if (pieceMoves.length == 1) {
+              let res = Update_Game({
+                piece: chess.get(socket.click_pos.src),
+                dst: socket.click_pos.dst,
+                type: pieceMoves[0].type
+              })
+
+              if (!res){
+                ui.helper.animate(ui.originalPosition)
+              }
+
+
+              if (res && res.piece.name == 'pawn' && (res.dst[0] == 0 || res.dst[0] == 7)) {
+                addPromotion('Admin', res)
+              }
+
+              socket.click_pos.src = null;
+              socket.click_pos.dst = null
+            }
+
+          }
+          // --------------------------------------------------------
+          break;
+
+
+        default:
+          console.log("You have a strange Mouse!");
+          break;
+      }
+    }
+
+    if (chess.in_check()['b'] || chess.in_check()['w']) {
+      Check(chess.in_check()['b'] ? 'b' : 'w');
+      Check(chess.in_check()['w'] ? 'w' : 'b');
+    }
+
+    if (chess.in_checkmate() && socket.end_game == false) {
+      CheckMate(chess.in_check().b ? 'w' : 'b')
+    }
+  }
+});
