@@ -122,8 +122,12 @@ export function Put_Pieces(e, type, color) {
       'text-stroke': '2px black'
     });
   }
+  
+  if($(e).find("span").length === 0){
+    let span = $('<span>').text(type)
+    $(e).append(span)
+  }
 
-  $(e).find('span').text(type);
 }
 
 
@@ -167,7 +171,7 @@ function Remove_Pieces(e, type = '0', color = "#ffcf9e00") {
     '-webkit-text-stroke': '0px transparent',
     'text-stroke': '0px transparent'
   });
-  $(e).find('span').text('');
+  $(e).find('span').remove();
 }
 
 export function saveText(text, filename) {
