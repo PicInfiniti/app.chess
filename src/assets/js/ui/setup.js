@@ -21,9 +21,9 @@ document.chess = chess
 for (let i = 0; i < 8; i++) {
   for (let j = 0; j < 8; j++) {
     if ((i + j) % 2 == 0) {
-      $('#board').append(`<label type='text' id='b-${i}-${j}' name='${i}-${j}' style='background-color: #ffba75'></label>`)
+      $('#board').append(`<label type='text' id='b-${i}-${j}' name='${i}-${j}' style='background-color: #ffba75'><span></span></label>`)
     } else {
-      $('#board').append(`<label type='text' id='b-${i}-${j}' name='${i}-${j}' style='background-color: #EB9E53'></label>`)
+      $('#board').append(`<label type='text' id='b-${i}-${j}' name='${i}-${j}' style='background-color: #EB9E53'><span></span></label>`)
     }
   }
 }
