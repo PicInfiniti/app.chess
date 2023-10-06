@@ -48,30 +48,7 @@ $("#Resign").click(function () {
   socket.click = false
 
 
-
-  if (chess.phase == 'game') {
-    $('#PHASE h3').text('Game Phase')
-    $("#ReadyButton").text('Resign')
-    $("#ReadyButton").css({
-      color: 'white',
-      border: '3px solid red',
-      'background-color': 'red'
-    })
-
-    $("#ReadyButton").hover((event) => {
-      $(this).css({
-        'background-color': 'red',
-        color: 'white',
-        cursor: 'pointer'
-      })
-    }, (event) => {
-      $(this).css({
-        'background-color': 'white',
-        color: 'red'
-      })
-    })
-
-  }
+  
 
 
   socket.click_pos = {
@@ -85,11 +62,17 @@ $("#Resign").click(function () {
 });
 
 
+$("#playGame").click(function () {
+  load_history(chess.history)
+});
+
 $("#save").click(function () {
   saveText(JSON.stringify({
     move: chess.history
   }), "history.json");
 });
+
+
 
 // read json ----------------------
 
@@ -107,7 +90,6 @@ function onReaderLoad(event) {
       color: socket.color,
     });
   }
-
 }
 
 $("#jsonfile").change((event) => {
