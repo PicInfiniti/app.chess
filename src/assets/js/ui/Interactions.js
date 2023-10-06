@@ -47,10 +47,6 @@ $("#Resign").click(function () {
 
   socket.click = false
 
-
-  
-
-
   socket.click_pos = {
     src: null,
     dst: null
@@ -64,6 +60,34 @@ $("#Resign").click(function () {
 
 $("#playGame").click(function () {
   load_history(chess.history)
+});
+
+$(".play").click(function () {
+  if(!socket.playback){
+    PlayBack()
+  }
+  socket.playback = socket.playback ? false : true
+  socket.click = socket.click ? false : true
+});
+
+function PlayBack(){
+  $(".redo").click()
+  setTimeout(() => {
+    if(socket.playback){
+      PlayBack()
+    }
+  }, 500);
+}
+
+$(".redo").click(function () {
+  let el = socket.history[chess.count]
+  let res, piece;
+  piece = chess.get(el.move.piece.src)
+  res = Update_Game({
+    piece: piece,
+    dst: el.move.dst,
+    type: el.move.type
+  }, false, true);
 });
 
 $("#save").click(function () {
@@ -80,7 +104,11 @@ function onReaderLoad(event) {
   var obj = JSON.parse(event.target.result);
   socket.history = obj.move
   if (socket.opponent === null) {
-    load_history(socket.history)
+    if(!socket.playback){
+      PlayBack()
+    }
+    socket.playback = socket.playback ? false : true
+    socket.click = socket.click ? false : true
   } else {
     socket.opponent.send({
       username: socket.username,
@@ -278,3 +306,4 @@ $("#board label").droppable({
     }
   }
 });
+

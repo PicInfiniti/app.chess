@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="/resources/demos/style.css">
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
- <script type="module" src="./main.js" defer></script>
+  <script type="module" src="./main.js" defer></script>
 </head>
 
 <body>
@@ -57,6 +57,17 @@
           <setting style="cursor:pointer">
             ⚙
           </setting>
+          <play>
+            <span class="undo" style="cursor:pointer">
+              ❮
+            </span>
+            <span class="play" style="cursor:pointer">
+              📽
+            </span>
+            <span class="redo" style="cursor:pointer">
+              ❯
+            </span>
+          </play>
 
         </div>
         <div class="status">
@@ -84,16 +95,16 @@
           <unicode-emoji-picker version="15.0" default-group="search" filters-position="left"></unicode-emoji-picker>
           <button class="emoji-button">😀</button>
           <input type="text" class="chat-input" id="message-input" placeholder="Type your message">
-    
+
           <button class="chat-send">Send</button>
         </div>
       </div>
 
 
     </info>
-    
+
   </container>
-  
+
 
 
   <footer>
@@ -105,4 +116,5 @@
 
 
 </body>
+
 </html>

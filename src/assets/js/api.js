@@ -21,8 +21,8 @@ import {
 import Chance from "chance";
 var chance = new Chance();
 
-// const serverUrl = "http://127.0.0.1:5000";
-const serverUrl = "https://gungi.pythonanywhere.com";
+const serverUrl = "http://127.0.0.1:5000";
+// const serverUrl = "https://gungi.pythonanywhere.com";
 export var socket = {}
 
 
@@ -43,6 +43,7 @@ socket = {
     src: null,
     dst: null
   },
+  playback: false
 }
 
 document.socket = socket
