@@ -259,6 +259,7 @@ export function Update_Game(Move = {
 }, admin = false, history = false) {
   if (socket.opponent === null || (admin || socket.color === chess.turn) || history) {
     socket.click = false
+    console.log(Move)
     let $src = $(`#b-${Move.piece.src} span`);
     let s_x = Number(Move.piece.src[0])
     let s_y = Number(Move.piece.src[2])

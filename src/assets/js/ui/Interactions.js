@@ -14,7 +14,8 @@ import {
   saveText,
   load_history,
   update_board,
-  addMessage
+  addMessage,
+  turn_update
 } from './utils'
 
 import {
@@ -63,17 +64,53 @@ $("#playGame").click(function () {
 });
 
 $(".play").click(function () {
-  if(!socket.playback){
-    PlayBack()
+  if (socket.opponent === null) {
+    if (!socket.playback) {
+      PlayBack()
+    }
+    socket.playback = socket.playback ? false : true
+    socket.click = socket.click ? false : true
   }
-  socket.playback = socket.playback ? false : true
-  socket.click = socket.click ? false : true
 });
 
-function PlayBack(){
+$(".undo").click(function () {
+  let Move = chess.undo()
+  turn_update()
+  let $src = $(`#b-${Move.dst} span`);
+  console.log(Move.piece,$src[0])
+  let d_x = Number(Move.piece.src[0])
+  let d_y = Number(Move.piece.src[2])
+
+  let s_x = Number(Move.dst[0])
+  let s_y = Number(Move.dst[2])
+
+  var animationDuration = 400;
+
+  function moveElement() {
+    var targetTop = `${(d_x-s_x)*100}px`
+    var targetLeft = `${(d_y-s_y)*100}px`
+    $src.animate({
+      top: targetTop,
+      left: targetLeft
+    }, animationDuration, function () {
+      // This function will be executed after the animation is complete
+     // You can call your function here
+      $src.css({
+        top: "0px",
+        left: "0px"
+      })
+      update_board();
+      socket.click = true
+
+    });
+  }
+  moveElement()
+});
+
+function PlayBack() {
   $(".redo").click()
   setTimeout(() => {
-    if(socket.playback){
+    if (socket.playback) {
       PlayBack()
     }
   }, 500);
@@ -81,13 +118,14 @@ function PlayBack(){
 
 $(".redo").click(function () {
   let el = socket.history[chess.count]
-  let res, piece;
-  piece = chess.get(el.move.piece.src)
-  res = Update_Game({
-    piece: piece,
-    dst: el.move.dst,
-    type: el.move.type
-  }, false, true);
+  if(el){
+    let piece = chess.get(el.move.piece.src)
+    Update_Game({
+      piece: piece,
+      dst: el.move.dst,
+      type: el.move.type
+    }, false, true);
+  }
 });
 
 $("#save").click(function () {
@@ -104,7 +142,7 @@ function onReaderLoad(event) {
   var obj = JSON.parse(event.target.result);
   socket.history = obj.move
   if (socket.opponent === null) {
-    if(!socket.playback){
+    if (!socket.playback) {
       PlayBack()
     }
     socket.playback = socket.playback ? false : true
@@ -171,7 +209,9 @@ $('#board label').mousedown(function (event) {
               dst: socket.click_pos.dst,
               type: pieceMoves[0].type
             })
-
+            if(res){
+              socket.history = JSON.parse(JSON.stringify(chess.history));
+            }
 
             if (res && res.piece.name == 'pawn' && (res.dst[0] == 0 || res.dst[0] == 7)) {
               addPromotion('Admin', res)
@@ -248,12 +288,12 @@ $("#board label span").draggable({
 $("#board label").droppable({
   accept: "#board label span ",
   drop: function (event, ui) {
-    
+
     socket.click_pos.src = ui.draggable.parent().attr("name");
     socket.click_pos.dst = $(this).attr("name")
-    let piece = chess.get(socket.click_pos.src )
+    let piece = chess.get(socket.click_pos.src)
 
-    if (piece.color!=chess.turn){
+    if (piece.color != chess.turn) {
       addMessage('Not Your Turn!!!', 'Admin')
     }
 
@@ -262,7 +302,7 @@ $("#board label").droppable({
     if (!chess.in_checkmate()) {
       switch (event.which) {
         case 1: // grab left click
-        Reset_Sections()
+          Reset_Sections()
           if (socket.click) {
             Show_Moves(chess, $(this).attr("name"), socket.click_pos)
             if (pieceMoves.length == 1) {
@@ -273,7 +313,9 @@ $("#board label").droppable({
               })
 
               if (!res) {
-                ui.helper.animate(ui.originalPosition, 'fast')
+                ui.helper.animate(ui.originalPosition)
+              } else {
+                socket.history = JSON.parse(JSON.stringify(chess.history));
               }
 
 
@@ -306,4 +348,3 @@ $("#board label").droppable({
     }
   }
 });
-

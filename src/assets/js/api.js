@@ -219,6 +219,7 @@ function sendHeartbeat(peerId) { // heartbeat function
                     addMessage(`Send request to ${li.text()}`, 'Admin', {
                       'color': 'green'
                     })
+                    $(".play").css({'color':"red",'cursor': "not-allowed",})
                   })
 
                   socket.opponent.on('error', function () {
@@ -321,7 +322,7 @@ function accept() {
         color: socket.color,
       });
     });
-
+    $(".play").css({'color':"red", 'cursor': "not-allowed",})
     socket.get_accepted = true
   }
   $('[dcr=request]').fadeOut(500, function () {

@@ -477,6 +477,37 @@ export default class Desk {
     }
   }
 
+  undo() {
+    if (this.count > 0) {
+      this.count--
+      let lastMove = this.history[this.history.length - 1].move
+      let piece = this.get(lastMove.dst)
+      piece.src = lastMove.piece.src
+      this.board[piece.src[0]][piece.src[2]] = piece
+      this.history.pop()
+      this.update_turn()
+
+      switch (lastMove.type) {
+        case 'move':
+          this.board[lastMove.dst[0]][lastMove.dst[2]] = null
+
+          break;
+
+        case 'attack':
+          let captured_piece = this.captured[this.captured.length-1]
+          captured_piece.src = lastMove.dst
+          this.board[lastMove.dst[0]][lastMove.dst[2]] = captured_piece
+
+          break;
+
+        default:
+          break;
+      }
+
+      return lastMove
+    }
+
+  }
   // update territory
   update_territory(board) {
     let territory = {
