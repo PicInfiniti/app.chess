@@ -279,8 +279,7 @@ export function Update_Game(Move = {
         left: targetLeft
       }, animationDuration, function () {
         // This function will be executed after the animation is complete
-        console.log("Animation finished. Triggering a function...");
-        // You can call your function here
+       // You can call your function here
         $src.css({
           top: "0px",
           left: "0px"

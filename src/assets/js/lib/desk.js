@@ -16,6 +16,7 @@ export default class Desk {
     this.ATTACK = 'attack'
     this.MOVEMENT = 'move'
     this.EP = 'ep'
+    this.CS = 'cs'
     this.STACK = 'stack'
     this.PLACE = 'place'
     this.READY = 'ready'
@@ -192,6 +193,46 @@ export default class Desk {
         this.board_1D.push(temp_top)
 
         break;
+
+      case 'cs':
+
+        x = Number(move.piece.src.split('-')[0]);
+        y = Number(move.piece.src.split('-')[1])
+
+        let rook_x = x
+        let rook_y = Number(move.dst[2]) == 2 ? 0 : 7
+        let rook = this.board[rook_x][rook_y]
+
+        let temp_rook = `${rook_x}-${rook_y}`
+        temp_src = move.piece.src;
+        // ------------------------------------------------------------
+        move.piece.src = move.dst
+        rook.src = `${rook_x}-${rook_y==7?5:3}`
+        // ------------------------------------------------------------
+        this.board_temp = this.D1_to_3d()
+        legal.push(!this.in_check(this.board_temp)[move.piece.color])
+        // ------------------------------------------------------------
+        move.piece.src = temp_src
+        rook.src = temp_rook
+
+        break;
+
+      case 'ep':
+        let _x = Number(move.dst.split('-')[0]);
+        let _y = Number(move.dst.split('-')[1])
+        temp_top = this.board[move.piece.color == 'b' ? _x - 1 : _x + 1][_y];
+        temp_src = move.piece.src;
+        // ------------------------------------------------------------
+        move.piece.src = move.dst
+        this.board_1D.splice(this.board_1D.indexOf(temp_top), 1)
+        // ------------------------------------------------------------
+        this.board_temp = this.D1_to_3d()
+        legal.push(!this.in_check(this.board_temp)[move.piece.color])
+        // ------------------------------------------------------------
+        move.piece.src = temp_src
+        this.board_1D.push(temp_top)
+
+        break;
     }
 
     // console.log(legal)
@@ -329,7 +370,7 @@ export default class Desk {
           let _x = Number(Move.dst.split('-')[0]);
           let _y = Number(Move.dst.split('-')[1])
 
-          top = this.board[_x - 1][_y];
+          top = this.board[Move.piece.color == 'b' ? _x - 1 : _x + 1][_y];
           this.board[Move.piece.color == 'b' ? _x - 1 : _x + 1][_y] = null
 
           // remove piece from current place -----------------------------
@@ -378,11 +419,11 @@ export default class Desk {
           }
           break
 
-        case 'cs':
+        case this.CS:
 
           x = Number(Move.piece.src.split('-')[0]);
           y = Number(Move.piece.src.split('-')[1])
- 
+
           let rook_x = x
           let rook_y = Number(Move.dst[2]) == 2 ? 0 : 7
           let rook = this.board[rook_x][rook_y]
@@ -416,12 +457,12 @@ export default class Desk {
           x = Number(Move.dst.split('-')[0]);
           y = Number(Move.dst.split('-')[1])
           this.board[x][y] = Move.piece
-          this.board[rook_x][rook_y==7?5:3] = rook
+          this.board[rook_x][rook_y == 7 ? 5 : 3] = rook
 
           // update territory
           this.territory = this.update_territory(this.board)
           Move.piece.everMoved = true
-          
+
 
           return {
             piece: Move.piece,

@@ -225,7 +225,6 @@ $("#board label").droppable({
     socket.click_pos.dst = $(this).attr("name")
     let piece = chess.get(socket.click_pos.src )
 
-    console.log(piece, socket.click_pos)
     if (piece.color!=chess.turn){
       addMessage('Not Your Turn!!!', 'Admin')
     }
