@@ -74,37 +74,40 @@ $(".play").click(function () {
 });
 
 $(".undo").click(function () {
-  let Move = chess.undo()
-  turn_update()
-  let $src = $(`#b-${Move.dst} span`);
-  console.log(Move.piece,$src[0])
-  let d_x = Number(Move.piece.src[0])
-  let d_y = Number(Move.piece.src[2])
+  if(chess.count>0){
+    socket.playback = socket.playback ? false : true
+    let Move = chess.undo()
+    turn_update()
+    let $src = $(`#b-${Move.dst} span`);
+    let d_x = Number(Move.piece.src[0])
+    let d_y = Number(Move.piece.src[2])
+  
+    let s_x = Number(Move.dst[0])
+    let s_y = Number(Move.dst[2])
+  
+    var animationDuration = 400;
+  
+    function moveElement() {
+      var targetTop = `${(d_x-s_x)*100}px`
+      var targetLeft = `${(d_y-s_y)*100}px`
+      $src.animate({
+        top: targetTop,
+        left: targetLeft
+      }, animationDuration, function () {
+        // This function will be executed after the animation is complete
+       // You can call your function here
+        $src.css({
+          top: "0px",
+          left: "0px"
+        })
+        update_board();
+        socket.click = true
+  
+      });
+    }
+    moveElement()
 
-  let s_x = Number(Move.dst[0])
-  let s_y = Number(Move.dst[2])
-
-  var animationDuration = 400;
-
-  function moveElement() {
-    var targetTop = `${(d_x-s_x)*100}px`
-    var targetLeft = `${(d_y-s_y)*100}px`
-    $src.animate({
-      top: targetTop,
-      left: targetLeft
-    }, animationDuration, function () {
-      // This function will be executed after the animation is complete
-     // You can call your function here
-      $src.css({
-        top: "0px",
-        left: "0px"
-      })
-      update_board();
-      socket.click = true
-
-    });
   }
-  moveElement()
 });
 
 function PlayBack() {
@@ -117,14 +120,18 @@ function PlayBack() {
 }
 
 $(".redo").click(function () {
-  let el = socket.history[chess.count]
-  if(el){
-    let piece = chess.get(el.move.piece.src)
-    Update_Game({
-      piece: piece,
-      dst: el.move.dst,
-      type: el.move.type
-    }, false, true);
+
+  if(chess.history.length < socket.history.length){
+    socket.playback = socket.playback ? false : true
+    let el = socket.history[chess.count]
+    if(el){
+      let piece = chess.get(el.move.piece.src)
+      Update_Game({
+        piece: piece,
+        dst: el.move.dst,
+        type: el.move.type
+      }, false, true);
+    }
   }
 });
 
