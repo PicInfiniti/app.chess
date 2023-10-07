@@ -64,7 +64,7 @@ $("#playGame").click(function () {
 });
 
 $(".play").click(function () {
-  if (socket.opponent === null) {
+  if (chess.history.length < socket.history.length && socket.opponent === null) {
     if (!socket.playback) {
       PlayBack()
     }
@@ -74,7 +74,7 @@ $(".play").click(function () {
 });
 
 $(".undo").click(function () {
-  if(chess.count>0){
+  if(chess.count>0 && socket.opponent==null){
     socket.playback = socket.playback ? false : true
     let Move = chess.undo()
     turn_update()
@@ -121,7 +121,7 @@ function PlayBack() {
 
 $(".redo").click(function () {
 
-  if(chess.history.length < socket.history.length){
+  if(chess.history.length < socket.history.length  && socket.opponent==null ){
     socket.playback = socket.playback ? false : true
     let el = socket.history[chess.count]
     if(el){
