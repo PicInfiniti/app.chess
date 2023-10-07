@@ -367,11 +367,10 @@ export default class Desk {
 
         case this.EP:
           // get piece of destination -----------------------------
-          let _x = Number(Move.dst.split('-')[0]);
           let _y = Number(Move.dst.split('-')[1])
 
-          top = this.board[Move.piece.color == 'b' ? _x - 1 : _x + 1][_y];
-          this.board[Move.piece.color == 'b' ? _x - 1 : _x + 1][_y] = null
+          top = this.board[Move.piece.color == 'b' ? 4 : 3][_y];
+          this.board[Move.piece.color == 'b' ? 4 : 3][_y] = null
 
           // remove piece from current place -----------------------------
           x = Number(Move.piece.src.split('-')[0]);
@@ -407,6 +406,7 @@ export default class Desk {
           this.board[x][y] = Move.piece
 
           // captured
+          console.log(top)
           this.captured.push(top)
           this.board_1D = this.D3_to_1d()
 
@@ -487,22 +487,33 @@ export default class Desk {
       this.history.pop()
       this.update_turn()
 
+      let captured_piece;
+
       switch (lastMove.type) {
         case 'move':
           this.board[lastMove.dst[0]][lastMove.dst[2]] = null
-
           break;
 
         case 'attack':
-          let captured_piece = this.captured[this.captured.length-1]
-          captured_piece.src = lastMove.dst
+          captured_piece = this.captured[this.captured.length - 1]
           this.board[lastMove.dst[0]][lastMove.dst[2]] = captured_piece
+          this.captured.pop()
+
+          break;
+
+        case 'ep':
+          this.board[lastMove.dst[0]][lastMove.dst[2]] = null
+          let _y = Number(lastMove.dst.split('-')[1])
+          captured_piece = this.captured[this.captured.length - 1]
+          this.board[captured_piece.color == 'b' ? 3 : 4][_y] = captured_piece
+          this.captured.pop()
 
           break;
 
         default:
           break;
       }
+      this.board_1D = this.D3_to_1d()
 
       return lastMove
     }

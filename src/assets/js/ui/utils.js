@@ -115,19 +115,18 @@ export function Move_piece(src, dst, callback=function(){}) {
   if ($src) {
     var targetTop = `${(d_x-s_x)*100}px`
     var targetLeft = `${(d_y-s_y)*100}px`
-    console.log(targetTop, targetLeft)
 
     $src.animate({
       top: targetTop,
       left: targetLeft
     }, 400, function () {
-      callback()
       $src.appendTo($dst)
       $src.css({
         top: "",
         left: "",
       })
       socket.click = true
+      callback()
 
     });
   }
@@ -158,7 +157,11 @@ export function Put_Pieces(e, type, color) {
       'text-stroke': '2px black'
     });
   }
-
+  $span.draggable({
+    revert: true,
+    revertDuration: 300
+  })
+  
   $(e).append($span)
 }
 
@@ -297,7 +300,7 @@ export function Update_Game(Move = {
       switch (Move.type) {
         case 'ep':
           Move_piece(lastMove.move.piece.src, lastMove.move.dst, function(){
-            $(`#b-${lastMove.move.piece.color=='w'?d_x+1:d_x-1}-${d_y} span`).appendTo('capture')
+            $(`#b-${lastMove.move.piece.color=='w'?d_x+1:d_x-1}-${d_y} span`).remove()
           })
           break;
 
@@ -308,7 +311,7 @@ export function Update_Game(Move = {
 
         case 'attack':
           Move_piece(lastMove.move.piece.src, lastMove.move.dst, function(){
-            $(`#b-${d_x}-${d_y} span`).appendTo('capture')
+            $(`#b-${d_x}-${d_y} span:first`).remove()
           })
 
           break

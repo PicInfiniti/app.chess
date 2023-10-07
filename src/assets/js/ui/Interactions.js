@@ -79,7 +79,7 @@ $(".undo").click(function () {
     socket.playback = socket.playback ? false : true
     let Move = chess.undo()
     turn_update()
-    Move_piece(Move.dst, Move.piece.src)
+    Move_piece(Move.dst, Move.piece.src, update_board)
 
   }
 });
@@ -258,13 +258,6 @@ function acceptPromotion(res, e) {
 
 }
 
-
-// darg
-
-$("#board label span").draggable({
-  revert: true,
-  revertDuration: 300
-})
 
 $("#board label").droppable({
   accept: "#board label span ",
