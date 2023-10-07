@@ -25,11 +25,6 @@ a
   border: 2px solid #999999
   border-radius: 10%
 
-.boarder-bottom
-  border-bottom: 2px solid #999999
-
-
-
 
 footer
   position: fixed
@@ -243,21 +238,59 @@ info
 
 
     #PHASE
-      h3
-        display: inline
+      font-size: 30pt
+      font-weight: bold
+      width: 100%
+
+
+      span
+        float: left
+        margin-right: 10px
 
       play
-        display: inline
         margin-left: 50px
+        float: right
         .play
-          color: green
-          font-size: 20pt
+          width: 40px
+          color: #d36a00
+          &:hover
+            color: green
+
+        .undo
+          width: 40px
+          text-align: right
+          &:hover
+            color: green
+            text-align: left
+
+        .redo
+          width: 40px
+          &:hover
+            color: green
+            text-align: right
 
     .status
       display: grid
       grid-template-columns: 1fr 1fr 1fr
       place-items: center
-      padding: 15px
+      margin-top: 30px
+      width: 100%
+
+      #PB
+        display: flex
+        justify-content: center
+        align-items: center
+        font-size: 40pt
+        font-weight: bold
+        color: black
+        border-radius: 100%
+        outline: 10px #171716 solid
+        box-shadow: 0px 0px 15px 12px #ad00ad00
+        background-color: #ffffff
+        font-family: chess
+        width: 60px
+        height: 60px
+
     
       button
         background-color: white
@@ -273,18 +306,10 @@ info
           color: white
           cursor: pointer
 
-      #PB
-        font-size: 40pt
-        font-weight: bold
-        color: black
-        border-radius: 100%
-        outline: 10px #171716 solid
-        box-shadow: 0px 0px 15px 12px #ad00ad00
-        background-color: #ffffff
-        font-family: chess
-
-
       #PW
+        display: flex
+        justify-content: center
+        align-items: center
         font-size: 40pt
         font-weight: bold
         color: black
@@ -293,7 +318,9 @@ info
         box-shadow: 0px 0px 15px 12px #ad00ad
         background-color: #ffffff
         font-family: chess
-
+        width: 60px
+        height: 60px
+        
   .online
     grid-row: 2
     grid-column: 1
