@@ -15,7 +15,8 @@ import {
   load_history,
   update_board,
   addMessage,
-  turn_update
+  turn_update,
+  Move_piece
 } from './utils'
 
 import {
@@ -78,34 +79,7 @@ $(".undo").click(function () {
     socket.playback = socket.playback ? false : true
     let Move = chess.undo()
     turn_update()
-    let $src = $(`#b-${Move.dst} span`);
-    let d_x = Number(Move.piece.src[0])
-    let d_y = Number(Move.piece.src[2])
-  
-    let s_x = Number(Move.dst[0])
-    let s_y = Number(Move.dst[2])
-  
-    var animationDuration = 400;
-  
-    function moveElement() {
-      var targetTop = `${(d_x-s_x)*100}px`
-      var targetLeft = `${(d_y-s_y)*100}px`
-      $src.animate({
-        top: targetTop,
-        left: targetLeft
-      }, animationDuration, function () {
-        // This function will be executed after the animation is complete
-       // You can call your function here
-        $src.css({
-          top: "0px",
-          left: "0px"
-        })
-        update_board();
-        socket.click = true
-  
-      });
-    }
-    moveElement()
+    Move_piece(Move.dst, Move.piece.src)
 
   }
 });

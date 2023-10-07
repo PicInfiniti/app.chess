@@ -102,6 +102,40 @@ export function Move(message) {
   });
 }
 
+export function Move_piece(src, dst, callback=function(){}) {
+  socket.click = false
+  let s_x = Number(src[0])
+  let s_y = Number(src[2])
+  let d_x = Number(dst[0])
+  let d_y = Number(dst[2])
+
+  let $src = $(`#b-${s_x}-${s_y} span`)
+  let $dst = $(`#b-${d_x}-${d_y}`)
+
+  if ($src) {
+    var targetTop = `${(d_x-s_x)*100}px`
+    var targetLeft = `${(d_y-s_y)*100}px`
+    console.log(targetTop, targetLeft)
+
+    $src.animate({
+      top: targetTop,
+      left: targetLeft
+    }, 400, function () {
+      callback()
+      $src.appendTo($dst)
+      $src.css({
+        top: "",
+        left: "",
+      })
+      socket.click = true
+
+    });
+  }
+
+
+}
+
+
 export function Movement_Possibility(src, dst) {
   let piece = chess.get(src)
   let Possibility = chess.moves(piece)
@@ -109,21 +143,23 @@ export function Movement_Possibility(src, dst) {
 }
 
 export function Put_Pieces(e, type, color) {
+
+  let $span = $('<span>').text(type)
   if (color == 'b') {
-    $(e).css({
+    $span.css({
       "color": 'black',
       '-webkit-text-stroke': '2px white',
       'text-stroke': '2px white'
     });
   } else {
-    $(e).css({
+    $span.css({
       "color": 'white',
       '-webkit-text-stroke': '2px black',
       'text-stroke': '2px black'
     });
   }
 
-  $(e).find('span').text(type);
+  $(e).append($span)
 }
 
 
@@ -161,14 +197,6 @@ export function Reset_Sections() {
 
 }
 
-function Remove_Pieces(e, type = '0', color = "#ffcf9e00") {
-  $(e).css({
-    "color": color,
-    '-webkit-text-stroke': '0px transparent',
-    'text-stroke': '0px transparent'
-  });
-  $(e).find('span').text('');
-}
 
 export function saveText(text, filename) {
   var a = document.createElement('a');
@@ -239,10 +267,9 @@ export function Show_Moves(chess, tag, click_pos) {
 export function update_board() {
   chess.board.forEach((row, x) => {
     row.forEach((piece, y) => {
+      $(`#b-${x}-${y} span`).remove()
       if (piece) {
         Put_Pieces(`#b-${x}-${y}`, piece.symbol, piece.color);
-      } else {
-        Remove_Pieces(`#b-${x}-${y}`)
       }
     })
   })
@@ -258,39 +285,42 @@ export function Update_Game(Move = {
   type: 'move'
 }, admin = false, history = false) {
   if (socket.opponent === null || (admin || socket.color === chess.turn) || history) {
-    socket.click = false
-    console.log(Move)
-    let $src = $(`#b-${Move.piece.src} span`);
-    let s_x = Number(Move.piece.src[0])
-    let s_y = Number(Move.piece.src[2])
-    let d_x = Number(Move.dst[0])
-    let d_y = Number(Move.dst[2])
+
 
     let res = chess.move(Move);
-
     turn_update();
+    if (res) {
+      let lastMove = chess.history[chess.history.length - 1]
+      let d_x = Number(lastMove.move.dst[0])
+      let d_y = Number(lastMove.move.dst[2])
 
-    var animationDuration = 400;
+      switch (Move.type) {
+        case 'ep':
+          Move_piece(lastMove.move.piece.src, lastMove.move.dst, function(){
+            $(`#b-${lastMove.move.piece.color=='w'?d_x+1:d_x-1}-${d_y} span`).appendTo('capture')
+          })
+          break;
 
-    function moveElement() {
-      var targetTop = `${(d_x-s_x)*100}px`
-      var targetLeft = `${(d_y-s_y)*100}px`
-      $src.animate({
-        top: targetTop,
-        left: targetLeft
-      }, animationDuration, function () {
-        // This function will be executed after the animation is complete
-       // You can call your function here
-        $src.css({
-          top: "0px",
-          left: "0px"
-        })
-        update_board();
-        socket.click = true
+        case 'cs':
+          Move_piece(lastMove.move.piece.src, lastMove.move.dst)
+          Move_piece(`${d_x}-${d_y==6?7:0}`, `${d_x}-${d_y==6?5:3}`)
+          break;
 
-      });
+        case 'attack':
+          Move_piece(lastMove.move.piece.src, lastMove.move.dst, function(){
+            $(`#b-${d_x}-${d_y} span`).appendTo('capture')
+          })
+
+          break
+
+        default:
+          Move_piece(lastMove.move.piece.src, lastMove.move.dst)
+
+          break;
+      }
+
     }
-    moveElement()
+
 
     if (socket.opponent && admin == false && history == false) {
       let lastMove = chess.history[chess.history.length - 1]
