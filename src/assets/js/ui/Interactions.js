@@ -80,7 +80,6 @@ $(".undo").click(function () {
     let Move = chess.undo()
     turn_update()
     Move_piece(Move.dst, Move.piece.src, update_board)
-
   }
 });
 
@@ -96,7 +95,6 @@ function PlayBack() {
 $(".redo").click(function () {
 
   if(chess.history.length < socket.history.length  && socket.opponent==null ){
-    socket.playback = socket.playback ? false : true
     let el = socket.history[chess.count]
     if(el){
       let piece = chess.get(el.move.piece.src)
