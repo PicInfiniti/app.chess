@@ -102,7 +102,7 @@ export function Move(message) {
   });
 }
 
-export function Move_piece(src, dst, callback=function(){}) {
+export function Move_piece(src, dst, callback = function () {}) {
   socket.click = false
   let s_x = Number(src[0])
   let s_y = Number(src[2])
@@ -161,7 +161,7 @@ export function Put_Pieces(e, type, color) {
     revert: true,
     revertDuration: 300
   })
-  
+
   $(e).append($span)
 }
 
@@ -299,7 +299,7 @@ export function Update_Game(Move = {
 
       switch (Move.type) {
         case 'ep':
-          Move_piece(lastMove.move.piece.src, lastMove.move.dst, function(){
+          Move_piece(lastMove.move.piece.src, lastMove.move.dst, function () {
             $(`#b-${lastMove.move.piece.color=='w'?d_x+1:d_x-1}-${d_y} span`).remove()
           })
           break;
@@ -310,7 +310,7 @@ export function Update_Game(Move = {
           break;
 
         case 'attack':
-          Move_piece(lastMove.move.piece.src, lastMove.move.dst, function(){
+          Move_piece(lastMove.move.piece.src, lastMove.move.dst, function () {
             $(`#b-${d_x}-${d_y} span:first`).remove()
           })
 
@@ -346,11 +346,6 @@ export function Reset_Game() {
     'z-index': 0,
     'opacity': 0
   })
-
-  for (let index = 0; index < 3; index++) {
-    Remove_Pieces("#t-" + index)
-  }
-
 
   socket.history = []
   socket.click = true

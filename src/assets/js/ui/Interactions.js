@@ -78,8 +78,15 @@ $(".undo").click(function () {
   if(chess.count>0 && socket.opponent==null){
     socket.playback = socket.playback ? false : true
     let Move = chess.undo()
+    let d_x = Number(Move.dst[0])
+    let d_y = Number(Move.dst[2])
     turn_update()
     Move_piece(Move.dst, Move.piece.src, update_board)
+    if(Move.type=='cs'){
+      Move_piece(`${d_x}-${d_y==6?5:3}`, `${d_x}-${d_y==6?7:0}`, update_board)
+    }
+
+
   }
 });
 

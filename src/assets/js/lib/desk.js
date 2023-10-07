@@ -479,10 +479,15 @@ export default class Desk {
 
   undo() {
     if (this.count > 0) {
-      this.count--
       let lastMove = this.history[this.history.length - 1].move
+      let x = Number(lastMove.dst[0])
+      let y = Number(lastMove.dst[2])
+
+      this.count--
       let piece = this.get(lastMove.dst)
+
       piece.src = lastMove.piece.src
+
       this.board[piece.src[0]][piece.src[2]] = piece
       this.history.pop()
       this.update_turn()
@@ -491,18 +496,18 @@ export default class Desk {
 
       switch (lastMove.type) {
         case 'move':
-          this.board[lastMove.dst[0]][lastMove.dst[2]] = null
+          this.board[x][y] = null
           break;
 
         case 'attack':
           captured_piece = this.captured[this.captured.length - 1]
-          this.board[lastMove.dst[0]][lastMove.dst[2]] = captured_piece
+          this.board[x][y] = captured_piece
           this.captured.pop()
 
           break;
 
         case 'ep':
-          this.board[lastMove.dst[0]][lastMove.dst[2]] = null
+          this.board[x][y] = null
           let _y = Number(lastMove.dst.split('-')[1])
           captured_piece = this.captured[this.captured.length - 1]
           this.board[captured_piece.color == 'b' ? 3 : 4][_y] = captured_piece
@@ -510,9 +515,21 @@ export default class Desk {
 
           break;
 
+        case 'cs':
+          piece.everMoved = false
+          this.board[x][y == 6 ? y - 1 : y + 1].everMoved = false
+
+          this.board[x][y] = null
+          this.board[x][y == 6 ? y + 1 : y - 2] = this.board[x][y == 6 ? y - 1 : y + 1]
+          this.board[x][y == 6 ? y - 1 : y + 1] = null
+
+
+          break;
+
         default:
           break;
       }
+
       this.board_1D = this.D3_to_1d()
 
       return lastMove
