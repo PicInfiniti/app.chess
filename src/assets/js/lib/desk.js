@@ -40,6 +40,8 @@ export default class Desk {
       w: this.get('7-4')
     }
 
+    this.rooks = [this.get('0-0'), this.get('0-7'), this.get('7-0'), this.get('7-7')]
+
     this.captured = []
     this.state = {
       b: null,
@@ -285,7 +287,9 @@ export default class Desk {
                 src: Move.piece.src
               },
               dst: Move.dst,
-              type: this.MOVEMENT
+              type: this.MOVEMENT,
+              everMoved: [this.rooks[0].everMoved, this.kings.b.everMoved, this.rooks[1].everMoved, this.rooks[2].everMoved, this.kings.w.everMoved, this.rooks[3].everMoved]
+            
             }
           })
 
@@ -334,7 +338,8 @@ export default class Desk {
                 src: Move.piece.src
               },
               dst: Move.dst,
-              type: this.ATTACK
+              type: this.ATTACK,
+              everMoved: [this.rooks[0].everMoved, this.kings.b.everMoved, this.rooks[1].everMoved, this.rooks[2].everMoved, this.kings.w.everMoved, this.rooks[3].everMoved]
             }
           })
           // -----------------------------
@@ -392,7 +397,9 @@ export default class Desk {
                 src: Move.piece.src
               },
               dst: Move.dst,
-              type: this.EP
+              type: this.EP,
+              everMoved: [this.rooks[0].everMoved, this.kings.b.everMoved, this.rooks[1].everMoved, this.rooks[2].everMoved, this.kings.w.everMoved, this.rooks[3].everMoved]
+            
             }
           })
           // -----------------------------
@@ -443,7 +450,9 @@ export default class Desk {
                 src: Move.piece.src
               },
               dst: Move.dst,
-              type: 'cs'
+              type: this.CS,
+              everMoved: [this.rooks[0].everMoved, this.kings.b.everMoved, this.rooks[1].everMoved, this.rooks[2].everMoved, this.kings.w.everMoved, this.rooks[3].everMoved]
+            
             }
           })
 
@@ -493,6 +502,15 @@ export default class Desk {
       this.update_turn()
 
       let captured_piece;
+ 
+      this.kings.b.everMoved = lastMove.everMoved[1]
+      this.kings.w.everMoved = lastMove.everMoved[4]
+
+      this.rooks[0].everMoved = lastMove.everMoved[0]
+      this.rooks[1].everMoved = lastMove.everMoved[2]
+      this.rooks[2].everMoved = lastMove.everMoved[3]
+      this.rooks[3].everMoved = lastMove.everMoved[5]
+
 
       switch (lastMove.type) {
         case 'move':
@@ -521,6 +539,7 @@ export default class Desk {
 
           this.board[x][y] = null
           this.board[x][y == 6 ? y + 1 : y - 2] = this.board[x][y == 6 ? y - 1 : y + 1]
+          this.board[x][y == 6 ? y + 1 : y - 2].src = `${x}-${y == 6 ? y + 1 : y - 2}`
           this.board[x][y == 6 ? y - 1 : y + 1] = null
 
 
@@ -582,6 +601,7 @@ export default class Desk {
       b: this.get('0-4'),
       w: this.get('7-4')
     }
+    this.rooks = [this.get('0-0'), this.get('0-7'), this.get('7-0'), this.get('7-7')]
 
     this.captured = []
     this.state = {
