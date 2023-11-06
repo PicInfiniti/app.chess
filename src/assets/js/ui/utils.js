@@ -342,6 +342,8 @@ export function Reset_Game() {
   turn_update()
   Reset_Sections()
 
+  document.getElementById('jsonfile').value = null;
+
   $('#result').css({
     'z-index': 0,
     'opacity': 0
@@ -353,8 +355,8 @@ export function Reset_Game() {
   socket.click_pos = {
     src: null,
     dst: null
-  }
-
+  },
+  socket.playback = false
 }
 
 document.update_board = update_board
