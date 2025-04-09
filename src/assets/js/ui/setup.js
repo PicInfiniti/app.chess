@@ -3,17 +3,13 @@ console.log('setup')
 // libraries -------------------------------------
 
 import {
-  Constants
-} from "../constants"
-
-import {
   update_board,
 } from './utils'
 
 
 import Desk from "../lib/desk"
 
-export const chess = new Desk(Constants)
+export const chess = new Desk()
 document.chess = chess
 
 
@@ -31,8 +27,8 @@ let alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 for (let i = 0; i < 8; i++) {
   $('arena .top').append(`<div><b>${alphabet[i]}</b></div>`)
   $('arena .bottom').append(`<div><b>${alphabet[i]}</b></div>`)
-  $('arena .right').append(`<div><b>${8-i}</b></div>`)
-  $('arena .left').append(`<div><b>${8-i}</b></div>`)
+  $('arena .right').append(`<div><b>${8 - i}</b></div>`)
+  $('arena .left').append(`<div><b>${8 - i}</b></div>`)
 }
 
 update_board()

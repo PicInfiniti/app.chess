@@ -25,25 +25,25 @@ function capitalizeFirstLetter(string) {
 }
 
 $('.stockpile').hover((event) => {
-    let color = $(event.target).attr('id')[0]
-    if (color == 'b') {
-      $('#black_stockpile .army .tooltip').show()
-        .text(capitalizeFirstLetter(event.target.getAttribute('dcr')))
-    } else {
-      $('#white_stockpile .army .tooltip').show()
-        .text(capitalizeFirstLetter(event.target.getAttribute('dcr')))
-    }
+  let color = $(event.target).attr('id')[0]
+  if (color == 'b') {
+    $('#black_stockpile .army .tooltip').show()
+      .text(capitalizeFirstLetter(event.target.getAttribute('dcr')))
+  } else {
+    $('#white_stockpile .army .tooltip').show()
+      .text(capitalizeFirstLetter(event.target.getAttribute('dcr')))
+  }
 
-  },
+},
   (event) => {
     $('.tooltip').hide()
       .text('King')
   })
 
-  $('#tower').hover((event) => {
-      $('#black_stockpile .army .tooltip').show()
-        .text(capitalizeFirstLetter(event.target.getAttribute('dcr')))
-  },
+$('#tower').hover((event) => {
+  $('#black_stockpile .army .tooltip').show()
+    .text(capitalizeFirstLetter(event.target.getAttribute('dcr')))
+},
   (event) => {
     $('.tooltip').hide()
       .text('King')
@@ -103,7 +103,6 @@ $('.usernameInput').keyup(function (event) {
       'background-color': 'white',
     })
 
-
   }
 });
 
@@ -114,7 +113,7 @@ function sendMessage() {
   const messageText = messageInput.value.trim();
 
   if (socket.set_username) {
-    addMessage(messageText,socket.username)
+    addMessage(messageText, socket.username)
 
     if (socket.opponent) {
       socket.opponent.send({
@@ -149,21 +148,21 @@ emojiPicker.addEventListener('emoji-pick', (event) => {
   $('.chat-input').val($('.chat-input').val() + event.detail.emoji)
 });
 
-$('#new_game').click(function(){
+$('#new_game').click(function () {
   Reset_Game()
-  addMessage('Reset The Game...','Admin')
+  addMessage('Reset The Game...', 'Admin')
 })
 
-$('#leave_game').click(function(){
+$('#leave_game').click(function () {
   if (socket.opponent != null) {
-    addMessage(`${socket.username} Leaves The Game.`,'Admin')
+    addMessage(`${socket.username} Leaves The Game.`, 'Admin')
     socket.opponent.send({
       username: socket.username,
       id: socket.peer._id,
       message: 'leave',
       color: socket.color,
     });
-    
+
     socket.opponent = null
   }
 })
@@ -177,7 +176,7 @@ $(".chat-box").resizable({
   handles: 'ne, n, e, s, w, sw, nw',
   resize: function (event, ui) {
     $('.chat-messages').css({
-      'height': `${ui.size.height-50}px`
+      'height': `${ui.size.height - 50}px`
     })
 
     $('.chat-box .form h3').css("font-size", `${ui.size.width / 25}pt`);

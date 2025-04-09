@@ -360,3 +360,12 @@ export function Reset_Game() {
 }
 
 document.update_board = update_board
+
+
+function getSvg(name, color) {
+  const img = document.createElement('img');
+  img.src = new URL(`../assets/pieces/${name}-${color}.svg`, import.meta.url).href;
+  img.alt = `${color} ${name}`;
+  return img;
+}
+
