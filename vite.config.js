@@ -6,7 +6,7 @@ const outDir = resolve(__dirname, 'dist');
 
 export default defineConfig({
   root,
-  base: '/',
+  base: '/app.chess/',
   build: {
     outDir,
     emptyOutDir: true,
