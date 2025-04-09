@@ -105,10 +105,8 @@ arena .middle #board label {
   align-items: center;
   border-radius: 10%;
 }
-arena .middle #board label span {
-  font-family: chess;
-  font-size: 50pt;
-  font-weight: bold;
+arena .middle #board label img {
+  width: 80px;
 }
 arena .middle #board label:hover {
   box-shadow: 0px 0px 10px 5px green;

@@ -109,7 +109,7 @@ export function Move_piece(src, dst, callback = function () {}) {
   let d_x = Number(dst[0])
   let d_y = Number(dst[2])
 
-  let $src = $(`#b-${s_x}-${s_y} span`)
+  let $src = $(`#b-${s_x}-${s_y} img`)
   let $dst = $(`#b-${d_x}-${d_y}`)
 
   if ($src) {
@@ -141,28 +141,14 @@ export function Movement_Possibility(src, dst) {
   return Possibility.filter(move => move.dst == dst)
 }
 
-export function Put_Pieces(e, type, color) {
-
-  let $span = $('<span>').text(type)
-  if (color == 'b') {
-    $span.css({
-      "color": 'black',
-      '-webkit-text-stroke': '2px white',
-      'text-stroke': '2px white'
-    });
-  } else {
-    $span.css({
-      "color": 'white',
-      '-webkit-text-stroke': '2px black',
-      'text-stroke': '2px black'
-    });
-  }
-  $span.draggable({
+export function Put_Pieces(e, name, color) {
+  let $img = getSvg(name, color)
+  $img.draggable({
     revert: true,
     revertDuration: 300
   })
 
-  $(e).append($span)
+  $(e).append($img)
 }
 
 
@@ -270,9 +256,9 @@ export function Show_Moves(chess, tag, click_pos) {
 export function update_board() {
   chess.board.forEach((row, x) => {
     row.forEach((piece, y) => {
-      $(`#b-${x}-${y} span`).remove()
+      $(`#b-${x}-${y} img`).remove()
       if (piece) {
-        Put_Pieces(`#b-${x}-${y}`, piece.symbol, piece.color);
+        Put_Pieces(`#b-${x}-${y}`, piece.name, piece.color);
       }
     })
   })
@@ -300,7 +286,7 @@ export function Update_Game(Move = {
       switch (Move.type) {
         case 'ep':
           Move_piece(lastMove.move.piece.src, lastMove.move.dst, function () {
-            $(`#b-${lastMove.move.piece.color=='w'?d_x+1:d_x-1}-${d_y} span`).remove()
+            $(`#b-${lastMove.move.piece.color=='w'?d_x+1:d_x-1}-${d_y} img`).remove()
           })
           break;
 
@@ -311,7 +297,7 @@ export function Update_Game(Move = {
 
         case 'attack':
           Move_piece(lastMove.move.piece.src, lastMove.move.dst, function () {
-            $(`#b-${d_x}-${d_y} span:first`).remove()
+            $(`#b-${d_x}-${d_y} img:first`).remove()
           })
 
           break
@@ -362,10 +348,13 @@ export function Reset_Game() {
 document.update_board = update_board
 
 
+
 function getSvg(name, color) {
-  const img = document.createElement('img');
-  img.src = new URL(`../assets/pieces/${name}-${color}.svg`, import.meta.url).href;
-  img.alt = `${color} ${name}`;
-  return img;
+  const src = new URL(`/assets/pieces/${name}-${color}.svg`, import.meta.url).href;
+  return $('<img>', {
+    src: src,
+    alt: `${color} ${name}`,
+    class: 'chess-piece' // Optional class for styling
+  });
 }
 
